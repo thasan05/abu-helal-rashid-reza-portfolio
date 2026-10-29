@@ -12,10 +12,11 @@ import Credentials from "@/components/Credentials";
 import PersonalDimension from "@/components/PersonalDimension";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
+import MobileQuickBar from "@/components/MobileQuickBar";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen flex flex-col bg-[#101C2C] text-slate-100 selection:bg-[#B79A63] selection:text-white">
+    <main className="min-h-screen flex flex-col bg-[#101C2C] text-slate-100 selection:bg-[#B79A63] selection:text-white relative overflow-x-hidden">
       {/* Sticky Executive Navigation Bar */}
       <Navbar />
 
@@ -54,6 +55,9 @@ export default function HomePage() {
 
       {/* Executive Footer */}
       <Footer />
+
+      {/* Floating Thumb-Friendly Mobile Quick Action Dock */}
+      <MobileQuickBar />
     </main>
   );
 }

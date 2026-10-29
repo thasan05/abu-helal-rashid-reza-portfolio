@@ -59,6 +59,7 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -66,6 +67,9 @@ body {
   background-color: var(--navy-900);
   color: #1E293B;
   overflow-x: hidden;
+  width: 100%;
+  position: relative;
+  touch-action: manipulation;
 }
 
 ::selection {
@@ -73,17 +77,29 @@ body {
   color: #FFFFFF;
 }
 
-/* Custom subtle scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
+/* Hide scrollbar for Chrome, Safari and Opera on touch swiping tabs */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
-::-webkit-scrollbar-track {
-  background: #101C2C;
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
-::-webkit-scrollbar-thumb {
-  background: #263C5B;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #B79A63;
+
+/* Custom subtle scrollbar for desktop */
+@media (min-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #101C2C;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #263C5B;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #B79A63;
+  }
 }
