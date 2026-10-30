@@ -4,9 +4,16 @@ import React, { useState, useEffect } from "react";
 import { ArrowUpRight, Send, CheckCircle2, AlertCircle, Copy, Check, Clock, Mail, Phone, MapPin } from "lucide-react";
 import { LinkedInIcon } from "@/components/icons/LinkedInIcon";
 import { portfolioContent } from "@/data/content";
+import { submitPublicInquiry } from "@/app/admin/cms-actions";
+import type { DatabasePortfolioData } from "@/lib/db/data";
 
-export default function ContactSection() {
-  const { contact, personalInfo } = portfolioContent;
+interface ContactSectionProps {
+  data?: DatabasePortfolioData;
+}
+
+export default function ContactSection({ data }: ContactSectionProps) {
+  const contact = data?.contact || portfolioContent.contact;
+  const personalInfo = data?.personalInfo || portfolioContent.personalInfo;
 
   const [formData, setFormData] = useState({
     name: "",
@@ -35,7 +42,6 @@ export default function ContactSection() {
         }).format(now);
         setDhakaTime(formatted);
       } catch {
-        // Fallback for environments without Intl timezone support
         setDhakaTime("GMT+6 (BST)");
       }
     };
@@ -51,7 +57,6 @@ export default function ContactSection() {
       setCopiedField(field);
       setTimeout(() => setCopiedField(null), 2200);
     } catch {
-      // Fallback if clipboard API is restricted
       const textarea = document.createElement("textarea");
       textarea.value = text;
       document.body.appendChild(textarea);
@@ -68,7 +73,7 @@ export default function ContactSection() {
     if (errorMsg) setErrorMsg("");
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
       setErrorMsg("Please complete all required fields (Name, Email, and Message).");
@@ -76,19 +81,28 @@ export default function ContactSection() {
     }
 
     setIsSubmitting(true);
+    setErrorMsg("");
 
-    setTimeout(() => {
+    try {
+      const fData = new FormData();
+      fData.append("name", formData.name);
+      fData.append("email", formData.email);
+      fData.append("organization", formData.organization);
+      fData.append("subject", formData.subject);
+      fData.append("message", formData.message);
+
+      const res = await submitPublicInquiry(fData);
+      if (res?.error) {
+        setErrorMsg(res.error);
+        setIsSubmitting(false);
+        return;
+      }
       setIsSubmitting(false);
       setSubmitted(true);
-
-      const mailtoUrl = `mailto:${personalInfo.email}?subject=${encodeURIComponent(
-        `[Executive Contact] ${formData.subject} - from ${formData.name}`
-      )}&body=${encodeURIComponent(
-        `Name: ${formData.name}\nEmail: ${formData.email}\nOrganization: ${formData.organization}\n\nMessage:\n${formData.message}`
-      )}`;
-
-      window.location.href = mailtoUrl;
-    }, 400);
+    } catch (err: any) {
+      setIsSubmitting(false);
+      setErrorMsg(err?.message || "Failed to submit inquiry. Please reach out via direct email.");
+    }
   };
 
   const cleanPhone = personalInfo.phone.replace(/[^0-9+]/g, "");
@@ -117,269 +131,251 @@ export default function ContactSection() {
           <div className="lg:col-span-5 space-y-6">
             
             <div className="p-6 rounded-[8px] bg-[#142236] border border-white/10 space-y-6 shadow-md">
-              
-              {/* Dhaka Time & Availability Badge */}
-              <div className="flex items-center justify-between pb-5 border-b border-white/10 text-xs">
-                <div className="flex items-center gap-2 text-slate-300">
-                  <Clock className="w-4 h-4 text-[#CBB077]" />
-                  <span className="text-xs uppercase tracking-[0.08em] font-medium text-slate-400">Dhaka (BST):</span>
-                  <span className="text-white tabular-nums font-medium">
-                    {dhakaTime || "Loading..."}
-                  </span>
-                </div>
-                <div className="flex items-center gap-1.5 text-emerald-400">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="text-xs uppercase tracking-[0.08em] font-medium">Channel Active</span>
+              <div className="flex items-center justify-between pb-4 border-b border-white/10">
+                <span className="text-xs uppercase tracking-[0.12em] font-medium text-[#CBB077]">
+                  Official Executive Registry
+                </span>
+                <div className="flex items-center gap-1.5 text-xs text-slate-400 font-mono">
+                  <Clock className="w-3.5 h-3.5 text-[#B79A63]" />
+                  <span>{dhakaTime || "Dhaka (BST)"}</span>
                 </div>
               </div>
 
-              {/* Email with 1-Click Copy */}
+              {/* Direct Email */}
               <div>
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-xs uppercase tracking-[0.1em] font-medium text-[#CBB077] flex items-center gap-1.5">
-                    <Mail className="w-3.5 h-3.5" />
-                    <span>Confidential Email</span>
-                  </span>
+                <span className="text-xs text-slate-400 block mb-1">Direct Correspondence</span>
+                <div className="flex items-center justify-between gap-2">
+                  <a
+                    href={`mailto:${personalInfo.email}`}
+                    className="font-serif text-lg sm:text-xl text-white hover:text-[#CBB077] transition-colors break-all"
+                  >
+                    {personalInfo.email}
+                  </a>
                   <button
                     type="button"
                     onClick={() => handleCopy(personalInfo.email, "email")}
-                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-[4px] bg-white/5 hover:bg-white/10 text-xs font-medium text-slate-300 hover:text-white transition-colors min-h-[32px] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#B79A63]"
-                    aria-label="Copy email address to clipboard"
+                    className="p-2 rounded-[4px] bg-[#0B121E] hover:bg-[#18283E] text-slate-300 hover:text-white transition-colors border border-white/10 shrink-0"
+                    title="Copy Email Address"
+                    aria-label="Copy Email Address"
                   >
                     {copiedField === "email" ? (
-                      <>
-                        <Check className="w-3.5 h-3.5 text-emerald-400" />
-                        <span className="text-emerald-400">Copied</span>
-                      </>
+                      <Check className="w-4 h-4 text-emerald-400" />
                     ) : (
-                      <>
-                        <Copy className="w-3.5 h-3.5 text-slate-400" />
-                        <span>Copy</span>
-                      </>
+                      <Copy className="w-4 h-4" />
                     )}
                   </button>
                 </div>
-                <a
-                  href={`mailto:${personalInfo.email}`}
-                  className="font-serif text-lg text-white hover:text-[#CBB077] transition-colors break-all block min-h-[28px]"
-                >
-                  {personalInfo.email}
-                </a>
-                <p className="text-xs text-slate-400 mt-1">
-                  Official correspondence &amp; board consultations
-                </p>
               </div>
 
-              {/* Telephone with 1-Click Copy */}
-              <div className="pt-5 border-t border-white/10">
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-xs uppercase tracking-[0.1em] font-medium text-[#CBB077] flex items-center gap-1.5">
-                    <Phone className="w-3.5 h-3.5" />
-                    <span>Direct Telephone</span>
-                  </span>
+              {/* Direct Telephone */}
+              <div>
+                <span className="text-xs text-slate-400 block mb-1">Direct Telephone</span>
+                <div className="flex items-center justify-between gap-2">
+                  <a
+                    href={`tel:${cleanPhone}`}
+                    className="font-serif text-lg sm:text-xl text-white hover:text-[#CBB077] transition-colors"
+                  >
+                    {personalInfo.phone}
+                  </a>
                   <button
                     type="button"
-                    onClick={() => handleCopy(cleanPhone, "phone")}
-                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-[4px] bg-white/5 hover:bg-white/10 text-xs font-medium text-slate-300 hover:text-white transition-colors min-h-[32px] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#B79A63]"
-                    aria-label="Copy telephone number to clipboard"
+                    onClick={() => handleCopy(personalInfo.phone, "phone")}
+                    className="p-2 rounded-[4px] bg-[#0B121E] hover:bg-[#18283E] text-slate-300 hover:text-white transition-colors border border-white/10 shrink-0"
+                    title="Copy Phone Number"
+                    aria-label="Copy Phone Number"
                   >
                     {copiedField === "phone" ? (
-                      <>
-                        <Check className="w-3.5 h-3.5 text-emerald-400" />
-                        <span className="text-emerald-400">Copied</span>
-                      </>
+                      <Check className="w-4 h-4 text-emerald-400" />
                     ) : (
-                      <>
-                        <Copy className="w-3.5 h-3.5 text-slate-400" />
-                        <span>Copy</span>
-                      </>
+                      <Copy className="w-4 h-4" />
                     )}
                   </button>
                 </div>
-                <a
-                  href={`tel:${cleanPhone}`}
-                  className="font-serif text-lg text-white hover:text-[#CBB077] transition-colors block min-h-[28px]"
-                >
-                  {personalInfo.phone}
-                </a>
-                <p className="text-xs text-slate-400 mt-1">
-                  Available during standard corporate hours (BST)
-                </p>
               </div>
 
-              {/* Headquarters */}
-              <div className="pt-5 border-t border-white/10">
-                <span className="text-xs uppercase tracking-[0.1em] font-medium text-[#CBB077] flex items-center gap-1.5 mb-1.5">
-                  <MapPin className="w-3.5 h-3.5" />
-                  <span>Corporate Headquarters</span>
-                </span>
-                <div className="font-serif text-base text-white">
-                  Edison Real Estate Limited
+              {/* Physical Corporate Presence */}
+              <div>
+                <span className="text-xs text-slate-400 block mb-1">Executive Office Presence</span>
+                <div className="flex items-start gap-2 text-xs sm:text-sm text-slate-200 font-light leading-relaxed">
+                  <MapPin className="w-4 h-4 text-[#B79A63] shrink-0 mt-0.5" />
+                  <span>{contact.officeLocation}</span>
                 </div>
-                <p className="text-xs text-slate-400 mt-0.5">
-                  Dhaka, Bangladesh &bull; Active Project Directorate
-                </p>
               </div>
 
-              {/* LinkedIn */}
-              <div className="pt-5 border-t border-white/10">
+              {/* LinkedIn Direct Connect */}
+              <div className="pt-2">
                 <a
                   href={personalInfo.linkedInUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-[#CBB077] hover:text-white transition-colors min-h-[44px]"
+                  className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-[4px] bg-[#0B121E] hover:bg-[#18283E] border border-white/15 hover:border-[#B79A63]/60 text-slate-200 text-xs font-medium uppercase tracking-wider transition-all min-h-[44px]"
                 >
-                  <LinkedInIcon className="w-4 h-4" />
-                  <span>Verify Profile on LinkedIn</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
+                  <LinkedInIcon className="w-4 h-4 text-[#B79A63]" />
+                  <span>Connect via LinkedIn Professional Network</span>
+                  <ArrowUpRight className="w-3.5 h-3.5 text-slate-400" />
                 </a>
               </div>
 
             </div>
 
-            {/* Protocol Notice */}
-            <div className="p-4 rounded-lg bg-[#070C14] border border-white/10 text-xs text-slate-400 leading-relaxed font-light">
-              <span className="text-white font-medium">Protocol Note: </span>
-              {contact.availabilityNote}
+            {/* Availability Protocol Plate */}
+            <div className="p-4 rounded-[6px] bg-[#0B121E] border border-white/10 text-xs text-slate-400 space-y-1">
+              <span className="text-slate-300 font-medium block">Advisory &amp; Engagement Protocol:</span>
+              <p className="font-light leading-relaxed">
+                {contact.availabilityNote}
+              </p>
             </div>
 
           </div>
 
-          {/* Right Column: Executive Inquiry Form */}
+          {/* Right Column: Formal Direct Inquiry Dispatch */}
           <div className="lg:col-span-7">
-            <div className="p-6 sm:p-8 lg:p-10 rounded-[8px] bg-[#142236] border border-white/15 shadow-xl">
+            <div className="p-6 sm:p-10 rounded-[8px] bg-[#142236] border border-white/10 shadow-lg">
               
-              <h3 className="font-serif text-xl sm:text-2xl font-normal text-white mb-2">
-                Initiate an executive inquiry
+              <h3 className="font-serif text-2xl font-normal text-white mb-2">
+                Dispatch an Executive Inquiry
               </h3>
-              <p className="text-xs sm:text-sm text-slate-400 mb-6 font-light">
-                Complete the fields below to open a direct confidential channel with Engr. Abu Helal Rashid Reza.
+              <p className="text-xs sm:text-sm text-slate-300 font-light leading-relaxed mb-6">
+                Directly reaches Engr. Reza&apos;s executive desk for strategic developments, board appointments, and development consultation.
               </p>
 
               {submitted ? (
-                <div className="p-6 rounded-lg bg-emerald-950/40 border border-emerald-700/60 text-emerald-200 space-y-3">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
-                    <span className="font-serif text-base font-medium text-white">
-                      Inquiry Dispatched
-                    </span>
-                  </div>
-                  <p className="text-xs sm:text-sm text-emerald-300 leading-relaxed">
-                    Your email client has been prepared with pre-formatted correspondence to <strong className="text-white">{personalInfo.email}</strong>.
+                <div className="p-6 rounded-[6px] bg-[#0B121E] border border-[#B79A63]/40 text-center space-y-3">
+                  <CheckCircle2 className="w-10 h-10 text-[#B79A63] mx-auto" />
+                  <h4 className="font-serif text-lg text-white">Inquiry Successfully Transmitted</h4>
+                  <p className="text-xs text-slate-300 font-light max-w-md mx-auto leading-relaxed">
+                    Thank you, <span className="text-white font-medium">{formData.name}</span>. Your inquiry has been securely logged to Engr. Reza&apos;s executive desk. Direct follow-up will be initiated promptly.
                   </p>
                   <button
                     type="button"
-                    onClick={() => setSubmitted(false)}
-                    className="mt-2 px-5 py-2.5 rounded bg-[#B79A63] text-[#070C14] text-xs font-semibold uppercase tracking-wider min-h-[44px] hover:bg-[#CBB077] transition-colors"
+                    onClick={() => {
+                      setSubmitted(false);
+                      setFormData({
+                        name: "",
+                        email: "",
+                        organization: "",
+                        subject: "Executive Inquiry / Real Estate Consultation",
+                        message: "",
+                      });
+                    }}
+                    className="mt-4 px-4 py-2 text-xs uppercase tracking-wider font-semibold text-[#B79A63] hover:text-[#CBB077] underline"
                   >
-                    Send Another Message
+                    Send Another Dispatch
                   </button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   {errorMsg && (
-                    <div className="p-3 rounded bg-red-950/40 border border-red-800/60 text-red-300 text-xs flex items-center gap-2">
-                      <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+                    <div className="p-3 rounded-[4px] bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
+                      <AlertCircle className="w-4 h-4 shrink-0" />
                       <span>{errorMsg}</span>
                     </div>
                   )}
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-1.5">
-                        Your Name <span className="text-[#B79A63]">*</span>
+                      <label htmlFor="name" className="block text-xs uppercase tracking-[0.08em] font-medium text-slate-300 mb-1.5">
+                        Your Full Name <span className="text-[#B79A63]">*</span>
                       </label>
                       <input
                         type="text"
+                        id="name"
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        placeholder="e.g. Tariq Ahmed"
-                        className="w-full h-11 px-3.5 rounded bg-[#0B121E] border border-white/15 text-white text-sm focus:outline-none focus:border-[#B79A63] placeholder-slate-500 transition-colors"
+                        className="w-full px-3.5 py-2.5 rounded-[4px] bg-[#0B121E] border border-white/10 text-white text-xs sm:text-sm focus:outline-none focus:border-[#B79A63] transition-colors"
+                        placeholder="e.g., Brig. Gen. (Retd.) / Managing Director"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-1.5">
-                        Email Address <span className="text-[#B79A63]">*</span>
+                      <label htmlFor="email" className="block text-xs uppercase tracking-[0.08em] font-medium text-slate-300 mb-1.5">
+                        Direct Email Address <span className="text-[#B79A63]">*</span>
                       </label>
                       <input
                         type="email"
+                        id="email"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        placeholder="name@organization.com"
-                        className="w-full h-11 px-3.5 rounded bg-[#0B121E] border border-white/15 text-white text-sm focus:outline-none focus:border-[#B79A63] placeholder-slate-500 transition-colors"
+                        className="w-full px-3.5 py-2.5 rounded-[4px] bg-[#0B121E] border border-white/10 text-white text-xs sm:text-sm focus:outline-none focus:border-[#B79A63] transition-colors"
+                        placeholder="e.g., corporate.email@domain.com"
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-1.5">
-                        Organization / Venture
+                      <label htmlFor="organization" className="block text-xs uppercase tracking-[0.08em] font-medium text-slate-300 mb-1.5">
+                        Organization / Firm
                       </label>
                       <input
                         type="text"
+                        id="organization"
                         name="organization"
                         value={formData.organization}
                         onChange={handleChange}
-                        placeholder="Company or Fund"
-                        className="w-full h-11 px-3.5 rounded bg-[#0B121E] border border-white/15 text-white text-sm focus:outline-none focus:border-[#B79A63] placeholder-slate-500 transition-colors"
+                        className="w-full px-3.5 py-2.5 rounded-[4px] bg-[#0B121E] border border-white/10 text-white text-xs sm:text-sm focus:outline-none focus:border-[#B79A63] transition-colors"
+                        placeholder="e.g., Development Group / Financial Institution"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-1.5">
-                        Inquiry Topic
+                      <label htmlFor="subject" className="block text-xs uppercase tracking-[0.08em] font-medium text-slate-300 mb-1.5">
+                        Nature of Consultation <span className="text-[#B79A63]">*</span>
                       </label>
                       <select
+                        id="subject"
                         name="subject"
                         value={formData.subject}
                         onChange={handleChange}
-                        className="w-full h-11 px-3 rounded bg-[#0B121E] border border-white/15 text-white text-sm focus:outline-none focus:border-[#B79A63] transition-colors"
+                        className="w-full px-3.5 py-2.5 rounded-[4px] bg-[#0B121E] border border-white/10 text-white text-xs sm:text-sm focus:outline-none focus:border-[#B79A63] transition-colors"
                       >
-                        <option value="Executive Inquiry / Real Estate Consultation">
-                          Executive Consultation
-                        </option>
-                        <option value="Condominium & Master Plan Partnership">
-                          Condominium &amp; Master Plan Inquiry
-                        </option>
-                        <option value="Board / Operational Leadership Review">
-                          Board / Leadership Review
-                        </option>
-                        <option value="Keynote Speaking & Mentorship">
-                          Keynote Speaking / Mentorship
-                        </option>
+                        <option value="Executive Inquiry / Real Estate Consultation">Executive Consultation</option>
+                        <option value="Landmark Condominium & High-Rise Development">Landmark Condominium Development</option>
+                        <option value="Strategic Joint Venture / Landowner Partnership">Strategic Joint Venture Partnership</option>
+                        <option value="Executive Leadership / Board Advisory">Executive Leadership / Board Advisory</option>
+                        <option value="Professional Mentorship / Academic Discourse">Professional Mentorship & Discourse</option>
                       </select>
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-1.5">
-                      Executive Message <span className="text-[#B79A63]">*</span>
+                    <label htmlFor="message" className="block text-xs uppercase tracking-[0.08em] font-medium text-slate-300 mb-1.5">
+                      Executive Message / Proposal Outline <span className="text-[#B79A63]">*</span>
                     </label>
                     <textarea
+                      id="message"
                       name="message"
-                      rows={4}
+                      rows={5}
                       value={formData.message}
                       onChange={handleChange}
                       required
-                      placeholder="Outline the nature of your inquiry, project scope, or proposed engagement..."
-                      className="w-full p-3.5 rounded bg-[#0B121E] border border-white/15 text-white text-sm focus:outline-none focus:border-[#B79A63] placeholder-slate-500 transition-colors resize-none"
+                      className="w-full px-3.5 py-2.5 rounded-[4px] bg-[#0B121E] border border-white/10 text-white text-xs sm:text-sm focus:outline-none focus:border-[#B79A63] transition-colors resize-none leading-relaxed"
+                      placeholder="Outline the development scope, timeline, land parcel katha size, or strategic objective..."
                     />
                   </div>
 
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full h-12 inline-flex items-center justify-center gap-2 rounded bg-[#B79A63] hover:bg-[#CBB077] active:bg-[#CBB077] text-[#070C14] text-xs font-semibold uppercase tracking-wider transition-all duration-200 shadow-md disabled:opacity-50 min-h-[48px]"
+                    className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-[4px] bg-[#B79A63] hover:bg-[#CBB077] disabled:opacity-50 text-[#070C14] text-xs font-semibold uppercase tracking-wider transition-all min-h-[46px]"
                   >
-                    <span>{isSubmitting ? "Dispatching..." : "Transmit Executive Message"}</span>
-                    <Send className="w-4 h-4" />
+                    {isSubmitting ? (
+                      <span>Transmitting Executive Dispatch...</span>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4" />
+                        <span>Transmit Official Consultation Dispatch</span>
+                      </>
+                    )}
                   </button>
+
+                  <p className="text-[11px] text-slate-400 text-center font-light pt-2">
+                    Directly delivered to Engr. Abu Helal Rashid Reza&apos;s private executive repository.
+                  </p>
                 </form>
               )}
 

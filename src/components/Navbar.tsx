@@ -4,23 +4,37 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X, FileText, ArrowUpRight } from "lucide-react";
 import { portfolioContent } from "@/data/content";
+import type { DatabasePortfolioData } from "@/lib/db/data";
 
-const navItems = [
-  { label: "Biography", href: "#about", id: "about" },
-  { label: "Experience", href: "#experience", id: "experience" },
-  { label: "Projects", href: "#projects", id: "projects" },
-  { label: "Expertise", href: "#expertise", id: "expertise" },
-  { label: "Leadership", href: "#philosophy", id: "philosophy" },
-  { label: "Community", href: "#mentorship", id: "mentorship" },
-  { label: "Credentials", href: "#credentials", id: "credentials" },
-  { label: "Contact", href: "#contact", id: "contact" },
+interface NavbarProps {
+  data?: DatabasePortfolioData;
+}
+
+const DEFAULT_NAV_ITEMS = [
+  { label: "Biography", href: "#about", id: "about", sectionKey: "biography" },
+  { label: "Experience", href: "#experience", id: "experience", sectionKey: "timeline" },
+  { label: "Projects", href: "#projects", id: "projects", sectionKey: "projects" },
+  { label: "Expertise", href: "#expertise", id: "expertise", sectionKey: "expertise" },
+  { label: "Leadership", href: "#philosophy", id: "philosophy", sectionKey: "philosophy" },
+  { label: "Community", href: "#mentorship", id: "mentorship", sectionKey: "mentorship" },
+  { label: "Credentials", href: "#credentials", id: "credentials", sectionKey: "credentials" },
+  { label: "Contact", href: "#contact", id: "contact", sectionKey: "contact" },
 ];
 
-export default function Navbar() {
+export default function Navbar({ data }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { personalInfo } = portfolioContent;
+
+  const personalInfo = data?.personalInfo || portfolioContent.personalInfo;
+  const sectionConfigs = data?.sectionConfigs || [];
+
+  // Filter navItems according to CMS visibility configurations
+  const navItems = DEFAULT_NAV_ITEMS.filter((item) => {
+    if (sectionConfigs.length === 0) return true;
+    const config = sectionConfigs.find((c) => c.sectionKey === item.sectionKey);
+    return config ? config.isVisible : true;
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -49,7 +63,7 @@ export default function Navbar() {
     });
 
     return () => observer.disconnect();
-  }, []);
+  }, [navItems]);
 
   useEffect(() => {
     if (mobileMenuOpen) {
@@ -62,148 +76,141 @@ export default function Navbar() {
     };
   }, [mobileMenuOpen]);
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && mobileMenuOpen) {
-        setMobileMenuOpen(false);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [mobileMenuOpen]);
-
   return (
-    <>
-      {/* Skip to Main Content Accessibility Link */}
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2.5 focus:bg-[#B79A63] focus:text-[#070C14] focus:text-xs focus:font-semibold focus:uppercase focus:tracking-wider focus:rounded shadow-lg"
-      >
-        Skip to main content
-      </a>
-
-      <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled
-            ? "bg-[#070C14]/94 backdrop-blur-md border-b border-white/10 shadow-xl shadow-black/50 py-3.5"
-            : "bg-transparent py-5"
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between">
-            {/* Architectural Wordmark */}
-            <Link
-              href="#"
-              className="group flex flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B79A63]"
-              aria-label="Engr. Abu Helal Rashid Reza Home"
-            >
-              <span className="font-serif text-base sm:text-lg font-normal tracking-wide text-white group-hover:text-[#CBB077] transition-colors">
-                Abu Helal Rashid Reza
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled
+          ? "bg-[#070C14]/90 backdrop-blur-md border-b border-white/10 shadow-2xl py-3"
+          : "bg-transparent py-5"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between">
+          
+          {/* Identity Monogram */}
+          <Link
+            href="/"
+            className="group flex items-center gap-3 focus:outline-none"
+            aria-label="Engr. Abu Helal Rashid Reza Home"
+          >
+            <div className="w-9 h-9 rounded-[4px] bg-[#142236] border border-white/15 group-hover:border-[#B79A63] flex items-center justify-center transition-colors shadow-sm">
+              <span className="font-serif text-sm font-semibold tracking-wider text-[#CBB077]">
+                RR
               </span>
-              <span className="text-xs tracking-[0.16em] uppercase text-[#B79A63] font-medium">
-                BUET Civil &bull; PMP® &bull; Project Director
-              </span>
-            </Link>
-
-            {/* Desktop Navigation with Active Scroll-Spy */}
-            <nav className="hidden lg:flex items-center gap-7" aria-label="Main Navigation">
-              {navItems.map((item) => {
-                const isActive = activeSection === item.id;
-                return (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    className={`text-xs uppercase tracking-wider transition-colors relative py-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#B79A63] ${
-                      isActive
-                        ? "text-[#CBB077] font-medium"
-                        : "text-slate-300 hover:text-white"
-                    }`}
-                  >
-                    <span>{item.label}</span>
-                    {isActive && (
-                      <span className="absolute -bottom-1 left-0 right-0 h-[1.5px] bg-[#B79A63]" />
-                    )}
-                  </Link>
-                );
-              })}
-            </nav>
-
-            {/* Desktop Actions */}
-            <div className="hidden lg:flex items-center gap-4">
-              <a
-                href={personalInfo.resumePdfPath}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-slate-300 hover:text-white border-b border-slate-700 hover:border-[#B79A63] pb-0.5 transition-colors min-h-[44px]"
-                title="Download Official Executive Resume (PDF)"
-              >
-                <FileText className="w-3.5 h-3.5 text-[#B79A63]" />
-                <span>Resume PDF</span>
-              </a>
-
-              <Link
-                href="#contact"
-                className="px-4 py-2 min-h-[44px] flex items-center justify-center rounded bg-[#B79A63] hover:bg-[#CBB077] text-[#070C14] text-xs font-semibold uppercase tracking-wider transition-all duration-200 shadow-sm"
-              >
-                Inquire
-              </Link>
             </div>
+            <div className="flex flex-col">
+              <span className="font-serif text-base sm:text-lg font-medium text-white group-hover:text-[#CBB077] transition-colors leading-tight tracking-tight">
+                {personalInfo.fullName}
+              </span>
+              <span className="text-[10px] uppercase tracking-[0.14em] text-slate-400 group-hover:text-slate-300 font-medium">
+                {personalInfo.currentRole}
+              </span>
+            </div>
+          </Link>
 
-            {/* Mobile Menu Trigger */}
-            <button
-              type="button"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden w-11 h-11 flex items-center justify-center rounded text-slate-300 hover:text-white hover:bg-white/5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B79A63]"
-              aria-expanded={mobileMenuOpen}
-              aria-label="Toggle navigation menu"
-            >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
-        </div>
-      </header>
-
-      {/* Mobile Menu Drawer */}
-      {mobileMenuOpen && (
-        <div
-          className="fixed inset-0 z-40 bg-[#070C14]/98 backdrop-blur-xl lg:hidden flex flex-col justify-between pt-24 pb-12 px-6"
-          role="dialog"
-          aria-modal="true"
-        >
-          <nav className="flex flex-col space-y-4">
-            {navItems.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="font-serif text-2xl text-slate-200 hover:text-[#CBB077] tracking-tight transition-colors py-1.5 border-b border-white/5"
-              >
-                {item.label}
-              </Link>
-            ))}
+          {/* Desktop Navigation Ledger */}
+          <nav
+            aria-label="Main Navigation"
+            className="hidden lg:flex items-center gap-1 xl:gap-2 text-xs font-medium tracking-[0.08em] uppercase"
+          >
+            {navItems.map((item) => {
+              const isActive = activeSection === item.id;
+              return (
+                <a
+                  key={item.id}
+                  href={item.href}
+                  className={`px-3 py-2 rounded-[4px] transition-all duration-200 ${
+                    isActive
+                      ? "text-[#CBB077] bg-white/[0.04] font-semibold"
+                      : "text-slate-300 hover:text-white hover:bg-white/[0.03]"
+                  }`}
+                >
+                  {item.label}
+                </a>
+              );
+            })}
           </nav>
 
-          <div className="pt-6 border-t border-white/10 flex flex-col gap-3">
+          {/* Right Action Bar */}
+          <div className="hidden sm:flex items-center gap-3">
             <a
               href={personalInfo.resumePdfPath}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 py-3.5 rounded border border-white/15 text-xs uppercase tracking-wider text-white"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-[4px] bg-[#142236] hover:bg-[#18283E] border border-white/15 text-slate-200 hover:text-white text-xs font-medium uppercase tracking-wider transition-colors min-h-[40px]"
+            >
+              <FileText className="w-3.5 h-3.5 text-[#B79A63]" />
+              <span>CV (PDF)</span>
+            </a>
+
+            <Link
+              href="#contact"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-[4px] bg-[#B79A63] hover:bg-[#CBB077] text-[#070C14] text-xs font-semibold uppercase tracking-wider transition-colors shadow-sm min-h-[40px]"
+            >
+              <span>Consult</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+
+          {/* Mobile Hamburger Toggle */}
+          <div className="lg:hidden flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2.5 rounded-[4px] bg-[#142236] border border-white/10 text-slate-300 hover:text-white focus:outline-none"
+              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileMenuOpen}
+            >
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      {/* Mobile Menu Drawer */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden fixed inset-0 top-[73px] bg-[#070C14]/98 backdrop-blur-xl border-t border-white/10 z-40 flex flex-col justify-between p-6 overflow-y-auto">
+          <nav className="flex flex-col space-y-1">
+            <span className="text-xs uppercase tracking-[0.14em] text-[#CBB077] font-semibold mb-3 px-3">
+              Editorial Index
+            </span>
+            {navItems.map((item) => (
+              <a
+                key={item.id}
+                href={item.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-3 rounded-[4px] text-sm text-slate-200 hover:text-[#CBB077] hover:bg-white/[0.04] uppercase tracking-wider font-medium flex items-center justify-between"
+              >
+                <span>{item.label}</span>
+                <span className="text-xs text-slate-600 font-mono">#</span>
+              </a>
+            ))}
+          </nav>
+
+          <div className="pt-6 border-t border-white/10 space-y-3">
+            <a
+              href={personalInfo.resumePdfPath}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-[4px] bg-[#142236] border border-white/10 text-slate-200 text-xs font-semibold uppercase tracking-wider"
             >
               <FileText className="w-4 h-4 text-[#B79A63]" />
-              <span>Download Executive Resume (PDF)</span>
+              <span>Download Executive CV (PDF)</span>
             </a>
+
             <Link
               href="#contact"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center gap-2 py-3.5 rounded bg-[#B79A63] text-[#070C14] text-xs font-semibold uppercase tracking-wider shadow"
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-[4px] bg-[#B79A63] text-[#070C14] text-xs font-bold uppercase tracking-wider"
             >
-              <span>Contact Engr. Reza</span>
+              <span>Initiate Executive Consultation</span>
               <ArrowUpRight className="w-4 h-4" />
             </Link>
           </div>
         </div>
       )}
-    </>
+    </header>
   );
 }

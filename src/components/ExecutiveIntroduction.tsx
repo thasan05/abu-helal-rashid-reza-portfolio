@@ -3,15 +3,22 @@
 import React from "react";
 import Image from "next/image";
 import { portfolioContent } from "@/data/content";
+import type { DatabasePortfolioData } from "@/lib/db/data";
 
-export default function ExecutiveIntroduction() {
-  const { executiveIntro } = portfolioContent;
+interface ExecutiveIntroProps {
+  data?: DatabasePortfolioData;
+}
+
+export default function ExecutiveIntroduction({ data }: ExecutiveIntroProps) {
+  const executiveIntro = data?.executiveIntro || portfolioContent.executiveIntro;
+  const personalInfo = data?.personalInfo || portfolioContent.personalInfo;
+  const secondaryImage = personalInfo.secondaryImagePath || "/images/reza-window-reflection.jpg";
 
   return (
     <section id="about" className="py-20 sm:py-28 lg:py-32 bg-[#FCFBF9] text-[#1E293B] border-b border-[#E2DDD2] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Editorial Section Headline (Architectural Monograph Ivory Chapter) */}
+        {/* Editorial Section Headline */}
         <div className="max-w-3xl mb-12 sm:mb-16">
           <div className="text-xs uppercase tracking-[0.14em] font-semibold text-[#9E814B] mb-3">
             Chapter I &bull; Executive Biography
@@ -32,8 +39,8 @@ export default function ExecutiveIntroduction() {
             <div className="relative rounded-[8px] overflow-hidden border border-[#E2DDD2] bg-[#F7F5F0] shadow-md">
               <div className="relative aspect-[4/5] w-full">
                 <Image
-                  src="/images/reza-window-reflection.jpg"
-                  alt="Engr. Abu Helal Rashid Reza in executive discussion"
+                  src={secondaryImage}
+                  alt={`${personalInfo.fullName} executive discussion`}
                   fill
                   sizes="(max-width: 640px) 100vw, 450px"
                   className="object-cover object-top"
@@ -57,15 +64,19 @@ export default function ExecutiveIntroduction() {
               </p>
             ))}
 
-            {/* Integrated Architectural Pull Quote (Archival print framing, no colored border-left trope) */}
-            <div className="my-8 py-8 px-6 sm:px-8 border-y border-[#E2DDD2] bg-[#F7F5F0] rounded-[4px]">
-              <blockquote className="font-serif italic text-lg sm:text-xl text-[#101C2C] leading-snug">
-                &ldquo;{executiveIntro.quoteCallout.statement}&rdquo;
-              </blockquote>
-              <cite className="block not-italic text-xs uppercase tracking-[0.14em] text-[#9E814B] font-semibold mt-3">
-                &mdash; {executiveIntro.quoteCallout.attribution}
-              </cite>
-            </div>
+            {/* Integrated Architectural Pull Quote */}
+            {executiveIntro.quoteCallout?.statement && (
+              <div className="my-8 py-8 px-6 sm:px-8 border-y border-[#E2DDD2] bg-[#F7F5F0] rounded-[4px]">
+                <blockquote className="font-serif italic text-lg sm:text-xl text-[#101C2C] leading-snug">
+                  &ldquo;{executiveIntro.quoteCallout.statement}&rdquo;
+                </blockquote>
+                {executiveIntro.quoteCallout.attribution && (
+                  <cite className="block not-italic text-xs uppercase tracking-[0.14em] text-[#9E814B] font-semibold mt-3">
+                    &mdash; {executiveIntro.quoteCallout.attribution}
+                  </cite>
+                )}
+              </div>
+            )}
 
             {/* Core Verification Register */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 text-xs text-[#475569]">

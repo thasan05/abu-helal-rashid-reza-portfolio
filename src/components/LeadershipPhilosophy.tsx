@@ -2,9 +2,14 @@
 
 import React from "react";
 import { portfolioContent, LeadershipPrinciple } from "@/data/content";
+import type { DatabasePortfolioData } from "@/lib/db/data";
 
-export default function LeadershipPhilosophy() {
-  const { philosophy } = portfolioContent;
+interface LeadershipPhilosophyProps {
+  data?: DatabasePortfolioData;
+}
+
+export default function LeadershipPhilosophy({ data }: LeadershipPhilosophyProps) {
+  const philosophy = data?.philosophy || portfolioContent.philosophy;
 
   return (
     <section id="philosophy" className="py-20 sm:py-28 lg:py-32 bg-[#FCFBF9] text-[#1E293B] border-b border-[#E2DDD2] relative">
@@ -26,7 +31,7 @@ export default function LeadershipPhilosophy() {
         {/* Central Manifest Reflection */}
         <div className="mb-14 p-8 sm:p-10 lg:p-12 rounded-[8px] bg-[#F7F5F0] border border-[#E2DDD2] shadow-sm">
           <blockquote className="font-serif italic text-xl sm:text-3xl text-[#101C2C] leading-relaxed max-w-4xl">
-            &ldquo;Strong leadership is not only about delivering results. It is also about how people grow, how decisions are made, and what remains after the work is done.&rdquo;
+            &ldquo;{philosophy.leadStatement || "Strong leadership is not only about delivering results. It is also about how people grow, how decisions are made, and what remains after the work is done."}&rdquo;
           </blockquote>
           <div className="mt-5 text-xs uppercase tracking-[0.14em] font-semibold text-[#9E814B]">
             Core Operating Philosophy &bull; Engr. Abu Helal Rashid Reza
@@ -51,6 +56,11 @@ export default function LeadershipPhilosophy() {
                 <h3 className="font-serif text-xl sm:text-2xl font-normal text-[#101C2C] mb-2">
                   {principle.headline}
                 </h3>
+                {principle.quote && (
+                  <p className="font-serif italic text-sm text-[#9E814B] mb-2">
+                    &ldquo;{principle.quote}&rdquo;
+                  </p>
+                )}
                 <p className="text-sm sm:text-base text-[#334155] font-light leading-relaxed">
                   {principle.reflection}
                 </p>

@@ -3,9 +3,21 @@
 import React from "react";
 import Image from "next/image";
 import { portfolioContent } from "@/data/content";
+import type { DatabasePortfolioData } from "@/lib/db/data";
 
-export default function PersonalDimension() {
-  const { personalDimension } = portfolioContent;
+interface PersonalDimensionProps {
+  data?: DatabasePortfolioData;
+}
+
+export default function PersonalDimension({ data }: PersonalDimensionProps) {
+  const personalDimension = data?.personalDimension || portfolioContent.personalDimension;
+  const interests = personalDimension.interests && personalDimension.interests.length > 0
+    ? personalDimension.interests
+    : portfolioContent.personalDimension.interests;
+
+  // Find images from interests or default to authentic marathon images
+  const runImage = interests.find((i) => i.imageUrl && i.imageUrl.includes("run"))?.imageUrl || "/images/reza-marathon-run.jpg";
+  const medalImage = interests.find((i) => i.imageUrl && i.imageUrl.includes("finisher"))?.imageUrl || "/images/reza-marathon-finisher.jpg";
 
   return (
     <section className="py-20 sm:py-28 lg:py-32 bg-[#070C14] border-b border-white/10 relative">
@@ -32,7 +44,7 @@ export default function PersonalDimension() {
             <div className="rounded-lg overflow-hidden border border-white/10 bg-[#0B121E]">
               <div className="relative aspect-[3/4] w-full">
                 <Image
-                  src="/images/reza-marathon-run.jpg"
+                  src={runImage}
                   alt="Engr. Reza running in the Inspiring Bangladesh Marathon"
                   fill
                   sizes="(max-width: 640px) 100vw, 350px"
@@ -47,7 +59,7 @@ export default function PersonalDimension() {
             <div className="rounded-lg overflow-hidden border border-white/10 bg-[#0B121E]">
               <div className="relative aspect-[3/4] w-full">
                 <Image
-                  src="/images/reza-marathon-finisher.jpg"
+                  src={medalImage}
                   alt="Engr. Reza holding 15K finisher medal Bib 75767"
                   fill
                   sizes="(max-width: 640px) 100vw, 350px"
@@ -62,7 +74,7 @@ export default function PersonalDimension() {
 
           {/* Editorial Pillars */}
           <div className="lg:col-span-5 space-y-6">
-            {personalDimension.interests.map((item, idx) => (
+            {interests.map((item, idx) => (
               <div key={idx} className="p-5 rounded-[6px] bg-[#0B121E] border border-white/10">
                 <div className="text-xs uppercase tracking-[0.1em] font-medium text-[#CBB077] mb-1">
                   {item.highlight}

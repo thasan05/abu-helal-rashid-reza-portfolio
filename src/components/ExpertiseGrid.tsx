@@ -1,32 +1,41 @@
 "use client";
 
 import React from "react";
-import { portfolioContent } from "@/data/content";
+import { portfolioContent, ExpertiseArea } from "@/data/content";
+import type { DatabasePortfolioData } from "@/lib/db/data";
 
-export default function ExpertiseGrid() {
-  const { expertise } = portfolioContent;
+interface ExpertiseGridProps {
+  data?: DatabasePortfolioData;
+}
+
+export default function ExpertiseGrid({ data }: ExpertiseGridProps) {
+  const expertise = data?.expertise && data.expertise.length > 0
+    ? data.expertise
+    : portfolioContent.expertise;
+
+  // Group into standard 3 pillars, while including any custom/newly added areas into pillar 3
+  const pillar1Ids = ["civil-structural-engineering", "quality-assurance-safety", "sustainable-construction"];
+  const pillar2Ids = ["project-management-pmp", "corporate-operations", "supply-chain-contracts"];
+
+  const pillar1Domains = expertise.filter((e) => pillar1Ids.includes(e.id));
+  const pillar2Domains = expertise.filter((e) => pillar2Ids.includes(e.id));
+  const pillar3Domains = expertise.filter((e) => !pillar1Ids.includes(e.id) && !pillar2Ids.includes(e.id));
 
   const pillarGroups = [
     {
       pillarName: "Civil & Structural Engineering Rigor",
       focus: "Foundational civil engineering mastery, geotechnical due diligence, and building code compliance.",
-      domains: expertise.filter((e) =>
-        ["civil-structural-engineering", "quality-assurance-safety", "sustainable-construction"].includes(e.id)
-      ),
+      domains: pillar1Domains,
     },
     {
       pillarName: "Executive Portfolio & Operational Governance",
       focus: "PMP® project governance, multi-project execution, cross-functional P&L stewardship, and supply chain integrity.",
-      domains: expertise.filter((e) =>
-        ["project-management-pmp", "corporate-operations", "supply-chain-contracts"].includes(e.id)
-      ),
+      domains: pillar2Domains,
     },
     {
       pillarName: "Stakeholder Alignment & Urban Stewardship",
       focus: "Landowner joint-venture negotiation, statutory approvals, and nationwide professional mentorship.",
-      domains: expertise.filter((e) =>
-        ["stakeholder-joint-venture", "team-mentorship"].includes(e.id)
-      ),
+      domains: pillar3Domains,
     },
   ];
 
@@ -43,7 +52,7 @@ export default function ExpertiseGrid() {
             Strategic capabilities &amp; core discipline.
           </h2>
           <p className="mt-4 text-base sm:text-lg text-slate-300 font-light leading-relaxed">
-            Eight operational disciplines forged across 17 years of on-site structural engineering, executive corporate governance, and certified PMP® delivery.
+            Operational disciplines forged across 17 years of on-site structural engineering, executive corporate governance, and certified PMP® delivery.
           </p>
         </div>
 

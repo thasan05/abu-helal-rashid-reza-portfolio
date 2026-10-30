@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
+import { portfolioContent } from "@/data/content";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -78,12 +79,12 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
-  name: "Abu Helal Rashid Reza",
-  alternateName: "Engr. Abu Helal Rashid Reza",
-  jobTitle: "General Manager (Construction) & Project Director",
+  name: portfolioContent.personalInfo.fullName,
+  alternateName: `${portfolioContent.personalInfo.honorificPrefix} ${portfolioContent.personalInfo.fullName}`,
+  jobTitle: `${portfolioContent.personalInfo.currentRole} & Project Director`,
   worksFor: {
     "@type": "Organization",
-    name: "Edison Real Estate Limited",
+    name: portfolioContent.personalInfo.currentCompany,
   },
   alumniOf: [
     {
@@ -110,10 +111,10 @@ const jsonLd = {
     },
   ],
   sameAs: [
-    "https://www.linkedin.com/in/abu-helal-rashid-reza-01062057/",
+    portfolioContent.personalInfo.linkedInUrl,
     "https://theincap.com/dynamic-corporate-leader-abu-helal-rashid-reza/",
   ],
-  image: "https://abuhelalrashidreza.com/images/reza-headshot.jpg",
+  image: "https://abuhelalrashidreza.com/images/reza-portrait-standing.jpg",
   description:
     "Executive Leader in Real Estate, Construction Operations & Infrastructure with 17+ years of experience across Bangladesh.",
 };
@@ -133,11 +134,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen bg-[#070C14] text-slate-100 antialiased selection:bg-[#B79A63] selection:text-[#070C14]">
         {children}
-      {/* impeccable-live-start */}
-{/* eslint-disable-next-line @next/next/no-sync-scripts */}
-<script src="http://localhost:8400/live.js?token=a68fbf83-2167-44a6-85de-431264de5ed0"></script>
-{/* impeccable-live-end */}
-</body>
+      </body>
     </html>
   );
 }

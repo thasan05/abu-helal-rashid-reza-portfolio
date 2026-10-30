@@ -6,9 +6,26 @@ import Link from "next/link";
 import { ArrowDownRight, FileText, ArrowUpRight } from "lucide-react";
 import { LinkedInIcon } from "@/components/icons/LinkedInIcon";
 import { portfolioContent } from "@/data/content";
+import type { DatabasePortfolioData } from "@/lib/db/data";
 
-export default function Hero() {
-  const { personalInfo } = portfolioContent;
+interface HeroProps {
+  data?: DatabasePortfolioData;
+}
+
+export default function Hero({ data }: HeroProps) {
+  const personalInfo = data?.personalInfo || portfolioContent.personalInfo;
+  const heroSettings = data?.heroSettings || {
+    monographVolume: "Vol. XVII",
+    monographYear: "2026 Edition",
+    availabilityStatus: "Open for Select Executive Leadership & Strategic Consultation",
+    headline: "Engineering skylines with structural rigor and executive stewardship.",
+    subheadline: personalInfo.subHeadline,
+    ctaPrimaryLabel: "Executive CV (PDF)",
+    ctaPrimaryUrl: personalInfo.resumePdfPath,
+    ctaSecondaryLabel: "Selected Landmark Projects",
+    ctaSecondaryUrl: "#projects",
+  };
+  const metrics = data?.metrics && data.metrics.length > 0 ? data.metrics : portfolioContent.metrics;
 
   return (
     <section className="relative pt-28 pb-16 sm:pt-36 sm:pb-24 lg:pt-40 lg:pb-28 bg-[#0B121E] border-b border-white/10 overflow-hidden">
@@ -23,7 +40,7 @@ export default function Hero() {
             </span>
           </div>
           <div className="hidden sm:block text-xs uppercase tracking-[0.14em] text-slate-400 font-medium">
-            Executive Monograph &bull; Vol. 17 &bull; Dhaka
+            Executive Monograph &bull; {heroSettings.monographVolume} &bull; {heroSettings.monographYear}
           </div>
         </div>
 
@@ -35,13 +52,19 @@ export default function Hero() {
 
             {/* Monumental Headline with Editorial Italic Cadence */}
             <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-normal text-white tracking-tight leading-[1.08] mb-6">
-              Engineering rigor <br className="hidden sm:inline" />
-              <span className="italic font-light text-[#E0CFA8]">at landmark scale.</span>
+              {heroSettings.headline.includes("at landmark scale") ? (
+                <>
+                  Engineering rigor <br className="hidden sm:inline" />
+                  <span className="italic font-light text-[#E0CFA8]">at landmark scale.</span>
+                </>
+              ) : (
+                heroSettings.headline
+              )}
             </h1>
 
             {/* Narrative Proposition */}
             <p className="text-base sm:text-lg text-slate-300 font-light leading-relaxed max-w-2xl mb-8">
-              Over 17 years directing flagship residential condominiums, LEED-certified commercial towers, and national infrastructure across Bangladesh. Uniting BUET structural precision with C-suite P&amp;L governance and PMP® operational discipline.
+              {heroSettings.subheadline || personalInfo.shortBio}
             </p>
 
             {/* Architectural Credential Seal Bar */}
@@ -66,21 +89,21 @@ export default function Hero() {
             {/* Executive Actions */}
             <div className="flex flex-wrap items-center gap-4">
               <Link
-                href="#projects"
+                href={heroSettings.ctaSecondaryUrl || "#projects"}
                 className="inline-flex items-center gap-2 px-6 py-3.5 rounded-[4px] bg-[#B79A63] hover:bg-[#CBB077] text-[#070C14] text-xs font-semibold uppercase tracking-wider transition-all duration-200 shadow-sm min-h-[46px]"
               >
-                <span>Selected Landmark Projects</span>
+                <span>{heroSettings.ctaSecondaryLabel || "Selected Landmark Projects"}</span>
                 <ArrowDownRight className="w-4 h-4" />
               </Link>
 
               <a
-                href={personalInfo.resumePdfPath}
+                href={heroSettings.ctaPrimaryUrl || personalInfo.resumePdfPath}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-5 py-3.5 rounded-[4px] bg-[#142236] hover:bg-[#18283E] border border-white/15 hover:border-[#B79A63]/60 text-slate-200 text-xs font-medium uppercase tracking-wider transition-all duration-200 min-h-[46px]"
               >
                 <FileText className="w-4 h-4 text-[#B79A63]" />
-                <span>Executive CV (PDF)</span>
+                <span>{heroSettings.ctaPrimaryLabel || "Executive CV (PDF)"}</span>
               </a>
 
               <a
@@ -104,8 +127,8 @@ export default function Hero() {
               
               <div className="relative aspect-[3/4] w-full">
                 <Image
-                  src={personalInfo.heroImagePath}
-                  alt="Engr. Abu Helal Rashid Reza in executive pinstripe attire"
+                  src={personalInfo.heroImagePath || "/images/reza-portrait-standing.jpg"}
+                  alt={`${personalInfo.fullName} portrait`}
                   fill
                   priority
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 420px"
@@ -120,12 +143,12 @@ export default function Hero() {
                     {personalInfo.fullName}
                   </div>
                   <div className="text-xs text-slate-400 mt-0.5">
-                    Dhaka, Bangladesh &bull; Active Project Director
+                    {personalInfo.location} &bull; {personalInfo.currentRole}
                   </div>
                 </div>
 
                 <div className="text-right text-xs uppercase tracking-[0.12em] font-medium text-[#CBB077]">
-                  160 Katha Verona
+                  {personalInfo.currentCompany}
                 </div>
               </div>
 
@@ -134,34 +157,24 @@ export default function Hero() {
 
         </div>
 
-        {/* Baseline Landmark Metrics Ledger (Architectural register, no colored left-border templates) */}
+        {/* Baseline Landmark Metrics Ledger */}
         <div className="mt-14 sm:mt-20 pt-8 sm:pt-10 border-t border-white/10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            
-            <div className="space-y-1">
-              <div className="font-serif text-2xl sm:text-3xl text-white font-normal tabular-nums">17+ Years</div>
-              <div className="text-xs text-slate-300 font-medium uppercase tracking-[0.08em]">Operational Leadership</div>
-              <p className="text-xs text-slate-400 font-light leading-relaxed">Real estate development &amp; structural engineering governance</p>
-            </div>
-
-            <div className="space-y-1">
-              <div className="font-serif text-2xl sm:text-3xl text-white font-normal tabular-nums">160 Katha</div>
-              <div className="text-xs text-slate-300 font-medium uppercase tracking-[0.08em]">Verona Masterwork</div>
-              <p className="text-xs text-slate-400 font-light leading-relaxed">Directing flagship residential condominium in Uttara</p>
-            </div>
-
-            <div className="space-y-1">
-              <div className="font-serif text-2xl sm:text-3xl text-white font-normal tabular-nums">24,000+</div>
-              <div className="text-xs text-slate-300 font-medium uppercase tracking-[0.08em]">Engineers Mentored</div>
-              <p className="text-xs text-slate-400 font-light leading-relaxed">Through nationwide LCB &amp; PMI initiatives</p>
-            </div>
-
-            <div className="space-y-1">
-              <div className="font-serif text-2xl sm:text-3xl text-white font-normal tabular-nums">BUET &bull; PMP®</div>
-              <div className="text-xs text-slate-300 font-medium uppercase tracking-[0.08em]">Technical Credentials</div>
-              <p className="text-xs text-slate-400 font-light leading-relaxed">Civil Engineering B.Sc. &amp; NSU Executive MBA</p>
-            </div>
-
+            {metrics.map((metric, idx) => (
+              <div key={idx} className="space-y-1">
+                <div className="font-serif text-2xl sm:text-3xl text-white font-normal tabular-nums">
+                  {metric.value}
+                </div>
+                <div className="text-xs text-slate-300 font-medium uppercase tracking-[0.08em]">
+                  {metric.label}
+                </div>
+                {metric.sublabel && (
+                  <p className="text-xs text-slate-400 font-light leading-relaxed">
+                    {metric.sublabel}
+                  </p>
+                )}
+              </div>
+            ))}
           </div>
         </div>
 

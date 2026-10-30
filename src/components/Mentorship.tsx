@@ -2,10 +2,20 @@
 
 import React from "react";
 import Image from "next/image";
-import { portfolioContent } from "@/data/content";
+import { portfolioContent, MentorshipActivity } from "@/data/content";
+import type { DatabasePortfolioData } from "@/lib/db/data";
 
-export default function Mentorship() {
-  const { mentorship } = portfolioContent;
+interface MentorshipProps {
+  data?: DatabasePortfolioData;
+}
+
+export default function Mentorship({ data }: MentorshipProps) {
+  const mentorship = data?.mentorship || portfolioContent.mentorship;
+  const activities = mentorship.activities && mentorship.activities.length > 0
+    ? mentorship.activities
+    : portfolioContent.mentorship.activities;
+
+  const activitiesWithImages = activities.filter((a) => !!a.imageUrl);
 
   return (
     <section id="mentorship" className="py-20 sm:py-28 lg:py-32 bg-[#0B121E] border-b border-white/10 relative">
@@ -25,85 +35,35 @@ export default function Mentorship() {
         </div>
 
         {/* Documentary Photography Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-14">
-          
-          <div className="rounded-[8px] overflow-hidden bg-[#142236] border border-white/10 shadow-md">
-            <div className="relative aspect-[4/3] w-full">
-              <Image
-                src="/images/reza-lcb-panel.jpg"
-                alt="Engr. Reza on stage at LinkedIn Community Bangladesh"
-                fill
-                sizes="(max-width: 640px) 100vw, 25vw"
-                className="object-cover"
-              />
-            </div>
-            <div className="p-4 text-xs">
-              <div className="text-xs uppercase tracking-[0.1em] font-medium text-[#CBB077] mb-1">LCB Conference</div>
-              <p className="text-slate-300 font-light leading-snug">
-                Keynote panel speaker on transition from academic theory to corporate construction delivery.
-              </p>
-            </div>
+        {activitiesWithImages.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-14">
+            {activitiesWithImages.slice(0, 4).map((item) => (
+              <div key={item.id} className="rounded-[8px] overflow-hidden bg-[#142236] border border-white/10 shadow-md">
+                <div className="relative aspect-[4/3] w-full">
+                  <Image
+                    src={item.imageUrl!}
+                    alt={item.imageCaption || item.organization}
+                    fill
+                    sizes="(max-width: 640px) 100vw, 25vw"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="p-4 text-xs">
+                  <div className="text-xs uppercase tracking-[0.1em] font-medium text-[#CBB077] mb-1">
+                    {item.organization}
+                  </div>
+                  <p className="text-slate-300 font-light leading-snug">
+                    {item.imageCaption || item.description}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
-
-          <div className="rounded-[8px] overflow-hidden bg-[#142236] border border-white/10 shadow-md">
-            <div className="relative aspect-[4/3] w-full">
-              <Image
-                src="/images/reza-pmi-speaker.jpg"
-                alt="Engr. Reza speaking at PMI Bangladesh Chapter"
-                fill
-                sizes="(max-width: 640px) 100vw, 25vw"
-                className="object-cover"
-              />
-            </div>
-            <div className="p-4 text-xs">
-              <div className="text-xs uppercase tracking-[0.1em] font-medium text-[#CBB077] mb-1">PMI Bangladesh</div>
-              <p className="text-slate-300 font-light leading-snug">
-                Guest session on Earned Value Management (EVM) and risk containment in mega-projects.
-              </p>
-            </div>
-          </div>
-
-          <div className="rounded-[8px] overflow-hidden bg-[#142236] border border-white/10 shadow-md">
-            <div className="relative aspect-[4/3] w-full">
-              <Image
-                src="/images/reza-lcb-community.jpg"
-                alt="Engr. Reza with young engineering community members"
-                fill
-                sizes="(max-width: 640px) 100vw, 25vw"
-                className="object-cover"
-              />
-            </div>
-            <div className="p-4 text-xs">
-              <div className="text-xs uppercase tracking-[0.1em] font-medium text-[#CBB077] mb-1">Youth Mentorship</div>
-              <p className="text-slate-300 font-light leading-snug">
-                Coaching graduate engineers on professional licensure, ethics, and career roadmaps.
-              </p>
-            </div>
-          </div>
-
-          <div className="rounded-[8px] overflow-hidden bg-[#142236] border border-white/10 shadow-md">
-            <div className="relative aspect-[4/3] w-full">
-              <Image
-                src="/images/reza-mentoring-youth.jpg"
-                alt="Engr. Reza in mentorship coaching session"
-                fill
-                sizes="(max-width: 640px) 100vw, 25vw"
-                className="object-cover"
-              />
-            </div>
-            <div className="p-4 text-xs">
-              <div className="text-xs uppercase tracking-[0.1em] font-medium text-[#CBB077] mb-1">Advisory Circles</div>
-              <p className="text-slate-300 font-light leading-snug">
-                Collaborative workshops elevating construction safety standards and site culture.
-              </p>
-            </div>
-          </div>
-
-        </div>
+        )}
 
         {/* Structured Impact Initiatives */}
         <div className="border-t border-white/15 divide-y divide-white/10">
-          {mentorship.activities.map((act) => (
+          {activities.map((act) => (
             <div key={act.id} className="py-6 sm:py-8 grid grid-cols-1 md:grid-cols-12 gap-4 items-baseline">
               <div className="md:col-span-3">
                 <span className="text-xs uppercase tracking-[0.1em] font-medium text-[#CBB077] block">

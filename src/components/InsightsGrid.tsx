@@ -3,9 +3,16 @@
 import React from "react";
 import { ArrowUpRight } from "lucide-react";
 import { portfolioContent, InsightArticle } from "@/data/content";
+import type { DatabasePortfolioData } from "@/lib/db/data";
 
-export default function InsightsGrid() {
-  const { insights } = portfolioContent;
+interface InsightsGridProps {
+  data?: DatabasePortfolioData;
+}
+
+export default function InsightsGrid({ data }: InsightsGridProps) {
+  const insights = data?.insights && data.insights.length > 0
+    ? data.insights
+    : portfolioContent.insights;
 
   return (
     <section id="insights" className="py-20 sm:py-28 lg:py-32 bg-[#070C14] border-b border-white/10 relative">
@@ -26,7 +33,7 @@ export default function InsightsGrid() {
           </div>
 
           <div className="text-xs uppercase tracking-[0.1em] font-medium text-slate-400 border border-white/10 px-3.5 py-2 rounded-[4px] bg-[#142236]">
-            Archival Index &bull; 4 Verified Features
+            Archival Index &bull; {insights.length} Verified Features
           </div>
         </div>
 
@@ -68,9 +75,9 @@ export default function InsightsGrid() {
                   href={article.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-[#CBB077] hover:text-white transition-colors min-h-[44px]"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#CBB077] hover:text-[#E0CFA8] transition-colors"
                 >
-                  <span>Explore Feature</span>
+                  <span>{article.isExternal ? "Read External" : "Examine Article"}</span>
                   <ArrowUpRight className="w-3.5 h-3.5" />
                 </a>
               </div>

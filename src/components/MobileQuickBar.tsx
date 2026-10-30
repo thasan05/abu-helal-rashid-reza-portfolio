@@ -4,10 +4,15 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Phone, MessageSquare } from "lucide-react";
 import { portfolioContent } from "@/data/content";
+import type { DatabasePortfolioData } from "@/lib/db/data";
 
-export default function MobileQuickBar() {
+interface MobileQuickBarProps {
+  data?: DatabasePortfolioData;
+}
+
+export default function MobileQuickBar({ data }: MobileQuickBarProps) {
   const [isVisible, setIsVisible] = useState(false);
-  const { personalInfo } = portfolioContent;
+  const personalInfo = data?.personalInfo || portfolioContent.personalInfo;
 
   useEffect(() => {
     const handleScroll = () => {

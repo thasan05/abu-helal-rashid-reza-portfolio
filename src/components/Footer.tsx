@@ -5,9 +5,14 @@ import Link from "next/link";
 import { ArrowUp, Mail, Phone, FileText } from "lucide-react";
 import { LinkedInIcon } from "@/components/icons/LinkedInIcon";
 import { portfolioContent } from "@/data/content";
+import type { DatabasePortfolioData } from "@/lib/db/data";
 
-export default function Footer() {
-  const { personalInfo } = portfolioContent;
+interface FooterProps {
+  data?: DatabasePortfolioData;
+}
+
+export default function Footer({ data }: FooterProps) {
+  const personalInfo = data?.personalInfo || portfolioContent.personalInfo;
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -32,7 +37,7 @@ export default function Footer() {
             </div>
 
             <p className="text-slate-400 font-light text-xs leading-relaxed max-w-sm">
-              General Manager (Construction) &amp; Project Director at Edison Real Estate Limited. Over 17 years directing major residential condominiums, LEED commercial towers, and national infrastructure across Bangladesh.
+              {personalInfo.currentRole} &amp; Project Director at {personalInfo.currentCompany}. Over 17 years directing major residential condominiums, LEED commercial towers, and national infrastructure across Bangladesh.
             </p>
 
             <div className="flex items-center gap-2 pt-2">
@@ -61,106 +66,107 @@ export default function Footer() {
               >
                 <Phone className="w-4 h-4" />
               </a>
-
-              <a
-                href={personalInfo.resumePdfPath}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3.5 py-2.5 min-h-[44px] rounded bg-[#0B121E] border border-white/10 text-xs text-slate-300 hover:text-white hover:border-[#B79A63] transition-colors"
-              >
-                <FileText className="w-3.5 h-3.5 text-[#B79A63]" />
-                <span>Resume (PDF)</span>
-              </a>
             </div>
           </div>
 
-          {/* Navigation Sitemap */}
-          <div>
-            <div className="text-xs uppercase tracking-[0.1em] font-medium text-white mb-4">
-              Sections
-            </div>
-            <ul className="space-y-2 text-xs">
+          {/* Navigation Column 1 */}
+          <div className="space-y-3">
+            <span className="text-xs uppercase tracking-[0.12em] font-semibold text-[#CBB077] block">
+              Monograph Index
+            </span>
+            <ul className="space-y-2">
               <li>
-                <Link href="#about" className="hover:text-white transition-colors">
-                  Executive Biography
-                </Link>
+                <a href="#about" className="hover:text-white transition-colors">Chapter I: Biography</a>
               </li>
               <li>
-                <Link href="#experience" className="hover:text-white transition-colors">
-                  Career Journey
-                </Link>
+                <a href="#experience" className="hover:text-white transition-colors">Chapter II: Career Ledger</a>
               </li>
               <li>
-                <Link href="#projects" className="hover:text-white transition-colors">
-                  Selected Projects
-                </Link>
+                <a href="#projects" className="hover:text-white transition-colors">Chapter III: Selected Works</a>
               </li>
               <li>
-                <Link href="#expertise" className="hover:text-white transition-colors">
-                  Strategic Capabilities
-                </Link>
+                <a href="#expertise" className="hover:text-white transition-colors">Chapter IV: Capabilities</a>
+              </li>
+              <li>
+                <a href="#philosophy" className="hover:text-white transition-colors">Chapter V: Governance</a>
               </li>
             </ul>
           </div>
 
-          <div>
-            <div className="text-xs uppercase tracking-[0.1em] font-medium text-white mb-4">
-              Leadership
-            </div>
-            <ul className="space-y-2 text-xs">
+          {/* Navigation Column 2 */}
+          <div className="space-y-3">
+            <span className="text-xs uppercase tracking-[0.12em] font-semibold text-[#CBB077] block">
+              Registry &amp; Discourse
+            </span>
+            <ul className="space-y-2">
               <li>
-                <Link href="#philosophy" className="hover:text-white transition-colors">
-                  Guiding Principles
-                </Link>
+                <a href="#mentorship" className="hover:text-white transition-colors">Chapter VI: Mentorship</a>
               </li>
               <li>
-                <Link href="#mentorship" className="hover:text-white transition-colors">
-                  Community Mentorship
-                </Link>
+                <a href="#insights" className="hover:text-white transition-colors">Chapter VII: Publications</a>
               </li>
               <li>
-                <Link href="#insights" className="hover:text-white transition-colors">
-                  Thought Leadership
-                </Link>
+                <a href="#credentials" className="hover:text-white transition-colors">Chapter VIII: Licensure</a>
               </li>
               <li>
-                <Link href="#credentials" className="hover:text-white transition-colors">
-                  Education &amp; Licensure
-                </Link>
+                <a href="#contact" className="hover:text-white transition-colors">Chapter X: Consultation</a>
+              </li>
+              <li>
+                <a
+                  href={personalInfo.resumePdfPath}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#CBB077] hover:underline flex items-center gap-1"
+                >
+                  <FileText className="w-3.5 h-3.5" />
+                  <span>Executive CV (PDF)</span>
+                </a>
               </li>
             </ul>
           </div>
 
-          {/* Colophon & Back to Top */}
-          <div className="flex flex-col justify-between">
-            <div>
-              <div className="text-xs uppercase tracking-[0.1em] font-medium text-white mb-4">
-                Colophon
+          {/* Institutional Verification Registry */}
+          <div className="space-y-3">
+            <span className="text-xs uppercase tracking-[0.12em] font-semibold text-[#CBB077] block">
+              Institutional Badges
+            </span>
+            <div className="space-y-2 text-[11px] text-slate-400 font-light">
+              <div className="p-2.5 rounded bg-[#0B121E] border border-white/5">
+                <span className="text-slate-200 font-medium block">PMI PMP® #3867623</span>
+                Project Management Professional
               </div>
-              <p className="text-slate-400 font-light text-xs leading-relaxed">
-                Designed as an architectural monograph. Typeset in Playfair Display &amp; Inter. Built with Next.js &amp; Tailwind CSS.
-              </p>
+              <div className="p-2.5 rounded bg-[#0B121E] border border-white/5">
+                <span className="text-slate-200 font-medium block">IEB Member M-25703</span>
+                Institution of Engineers, Bangladesh
+              </div>
+              <div className="p-2.5 rounded bg-[#0B121E] border border-white/5">
+                <span className="text-slate-200 font-medium block">BUET Civil &apos;08</span>
+                Bangladesh Univ. of Eng &amp; Tech
+              </div>
             </div>
-
-            <button
-              type="button"
-              onClick={scrollToTop}
-              className="mt-6 inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.1em] font-medium text-[#CBB077] hover:text-white min-h-[44px] transition-colors self-start focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#B79A63]"
-            >
-              <span>Back to Top</span>
-              <ArrowUp className="w-3.5 h-3.5" />
-            </button>
           </div>
 
         </div>
 
-        {/* Bottom Notice & Copyright */}
-        <div className="pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-slate-500 font-light">
+        {/* Bottom Colophon Bar */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500">
           <div>
-            &copy; 2026 Engr. Abu Helal Rashid Reza. All rights reserved.
+            &copy; {new Date().getFullYear()} {personalInfo.fullName}. Architectural Portfolio Monograph. All rights reserved.
           </div>
-          <div className="text-xs uppercase tracking-[0.08em] font-medium text-slate-500">
-            Authentic Professional Record &bull; Dhaka, Bangladesh
+
+          <div className="flex items-center gap-6">
+            <Link href="/admin" className="text-slate-600 hover:text-slate-400 transition-colors">
+              CMS Portal
+            </Link>
+            <button
+              type="button"
+              onClick={scrollToTop}
+              className="inline-flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors focus:outline-none"
+              aria-label="Scroll to top of monograph"
+            >
+              <span>Back to Top</span>
+              <ArrowUp className="w-3.5 h-3.5 text-[#B79A63]" />
+            </button>
           </div>
         </div>
 
