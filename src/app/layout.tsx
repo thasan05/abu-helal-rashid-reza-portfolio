@@ -18,7 +18,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
-  themeColor: "#101C2C",
+  themeColor: "#0B121E",
 };
 
 export const metadata: Metadata = {
@@ -131,9 +131,13 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-screen bg-[#101C2C] text-slate-100 antialiased selection:bg-[#B79A63] selection:text-white">
+      <body className="min-h-screen bg-[#070C14] text-slate-100 antialiased selection:bg-[#B79A63] selection:text-[#070C14]">
         {children}
-      </body>
+      {/* impeccable-live-start */}
+{/* eslint-disable-next-line @next/next/no-sync-scripts */}
+<script src="http://localhost:8400/live.js?token=a68fbf83-2167-44a6-85de-431264de5ed0"></script>
+{/* impeccable-live-end */}
+</body>
     </html>
   );
 }

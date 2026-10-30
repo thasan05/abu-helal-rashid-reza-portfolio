@@ -1,0 +1,270 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-29T21:18:00Z",
+  "title": "Design System: Abu Helal Rashid Reza Executive Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "midnight-navy-deep": {
+        "role": "neutral",
+        "displayName": "Midnight Navy Deep",
+        "canonical": "#0B131F",
+        "tonalRamp": ["#060B12", "#0B131F", "#101C2C", "#142236", "#18283E"]
+      },
+      "midnight-navy-ground": {
+        "role": "neutral",
+        "displayName": "Midnight Navy Ground",
+        "canonical": "#101C2C",
+        "tonalRamp": ["#0B131F", "#101C2C", "#142236", "#18283E", "#263C5B"]
+      },
+      "midnight-navy-surface": {
+        "role": "neutral",
+        "displayName": "Midnight Navy Surface",
+        "canonical": "#142236",
+        "tonalRamp": ["#101C2C", "#142236", "#18283E", "#223753", "#263C5B"]
+      },
+      "midnight-navy-elevated": {
+        "role": "neutral",
+        "displayName": "Midnight Navy Elevated",
+        "canonical": "#18283E",
+        "tonalRamp": ["#142236", "#18283E", "#223753", "#263C5B", "#334E75"]
+      },
+      "midnight-navy-border": {
+        "role": "neutral",
+        "displayName": "Midnight Navy Border",
+        "canonical": "#263C5B",
+        "tonalRamp": ["#18283E", "#223753", "#263C5B", "#334E75", "#416294"]
+      },
+      "alabaster-ivory-canvas": {
+        "role": "neutral",
+        "displayName": "Alabaster Ivory Canvas",
+        "canonical": "#FCFBF9",
+        "tonalRamp": ["#FFFFFF", "#FCFBF9", "#F7F5F0", "#EFECE3", "#E2DDD2"]
+      },
+      "alabaster-ivory-surface": {
+        "role": "neutral",
+        "displayName": "Alabaster Ivory Surface",
+        "canonical": "#F7F5F0",
+        "tonalRamp": ["#FCFBF9", "#F7F5F0", "#EFECE3", "#E2DDD2", "#D4CCC0"]
+      },
+      "alabaster-ivory-border": {
+        "role": "neutral",
+        "displayName": "Alabaster Ivory Border",
+        "canonical": "#E2DDD2",
+        "tonalRamp": ["#F7F5F0", "#EFECE3", "#E2DDD2", "#D4CCC0", "#C5BBAE"]
+      },
+      "champagne-gold-accent": {
+        "role": "primary",
+        "displayName": "Muted Champagne Gold Accent",
+        "canonical": "#B79A63",
+        "tonalRamp": ["#E0CFA8", "#CBB077", "#B79A63", "#9E814B", "#80673A"]
+      },
+      "champagne-gold-light": {
+        "role": "primary",
+        "displayName": "Champagne Gold Light",
+        "canonical": "#CBB077",
+        "tonalRamp": ["#F0E5CC", "#E0CFA8", "#CBB077", "#B79A63", "#9E814B"]
+      },
+      "champagne-gold-pale": {
+        "role": "primary",
+        "displayName": "Champagne Gold Pale",
+        "canonical": "#E0CFA8",
+        "tonalRamp": ["#F7F1E4", "#F0E5CC", "#E0CFA8", "#CBB077", "#B79A63"]
+      },
+      "champagne-gold-dark": {
+        "role": "primary",
+        "displayName": "Champagne Gold Dark",
+        "canonical": "#9E814B",
+        "tonalRamp": ["#B79A63", "#9E814B", "#80673A", "#65502C", "#4C3B1E"]
+      },
+      "slate-steel-text": {
+        "role": "neutral",
+        "displayName": "Slate Steel Text",
+        "canonical": "#CBD5E1",
+        "tonalRamp": ["#F1F5F9", "#E2E8F0", "#CBD5E1", "#94A3B8", "#64748B"]
+      },
+      "slate-steel-muted": {
+        "role": "neutral",
+        "displayName": "Slate Steel Muted",
+        "canonical": "#94A3B8",
+        "tonalRamp": ["#E2E8F0", "#CBD5E1", "#94A3B8", "#64748B", "#475569"]
+      },
+      "slate-steel-subtle": {
+        "role": "neutral",
+        "displayName": "Slate Steel Subtle",
+        "canonical": "#64748B",
+        "tonalRamp": ["#CBD5E1", "#94A3B8", "#64748B", "#475569", "#334155"]
+      },
+      "slate-steel-structural": {
+        "role": "neutral",
+        "displayName": "Slate Steel Structural",
+        "canonical": "#334155",
+        "tonalRamp": ["#64748B", "#475569", "#334155", "#1E293B", "#0F172A"]
+      },
+      "slate-steel-dark": {
+        "role": "neutral",
+        "displayName": "Slate Steel Dark",
+        "canonical": "#1E293B",
+        "tonalRamp": ["#475569", "#334155", "#1E293B", "#0F172A", "#080D1A"]
+      },
+      "pure-white": {
+        "role": "neutral",
+        "displayName": "Pure White",
+        "canonical": "#FFFFFF",
+        "tonalRamp": ["#FFFFFF", "#F8FAFC", "#F1F5F9", "#E2E8F0", "#CBD5E1"]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display Serif",
+        "purpose": "Primary hero statement and landmark chapter headlines."
+      },
+      "headline": {
+        "displayName": "Headline Serif",
+        "purpose": "Section titles across primary content narratives."
+      },
+      "title": {
+        "displayName": "Title Sans",
+        "purpose": "Project names, role positions, and container card titles."
+      },
+      "body": {
+        "displayName": "Body Sans",
+        "purpose": "Biographical narratives, project descriptions, and reflections."
+      },
+      "label": {
+        "displayName": "Label Sans Uppercase",
+        "purpose": "Metadata, category tags, timestamps, and metric captions."
+      }
+    },
+    "shadows": [
+      {
+        "name": "ambient-card",
+        "value": "0 10px 30px -10px rgba(0, 0, 0, 0.4)",
+        "purpose": "Grounds prominent dark cards and containers against the ground canvas."
+      },
+      {
+        "name": "accent-glow",
+        "value": "0 4px 14px 0 rgba(183, 154, 99, 0.2)",
+        "purpose": "Gives gold executive action buttons a refined metallic presence."
+      },
+      {
+        "name": "overlay-modal",
+        "value": "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
+        "purpose": "Isolates executive dialogs and mobile navigation drawers."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-editorial",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Smooth, refined deceleration for modal opens, expands, and drawer transitions."
+      },
+      {
+        "name": "ease-subtle",
+        "value": "cubic-bezier(0.4, 0, 0.2, 1)",
+        "purpose": "Standard easing for hover color shifts and button lifts."
+      }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Executive Action Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Primary action button for key career journeys and downloads.",
+      "html": "<button class=\"ds-btn-primary\">EXPLORE CAREER JOURNEY <svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"12\" y1=\"5\" x2=\"12\" y2=\"19\"></line><polyline points=\"19 12 12 19 5 12\"></polyline></svg></button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background-color: #B79A63; color: #101C2C; padding: 14px 24px; border-radius: 4px; font-family: Inter, sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; border: none; cursor: pointer; transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; box-shadow: 0 4px 14px rgba(183, 154, 99, 0.2); } .ds-btn-primary:hover { background-color: #CBB077; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(183, 154, 99, 0.3); } .ds-btn-primary:active { transform: translateY(0); } .ds-icon { width: 16px; height: 16px; }"
+    },
+    {
+      "name": "Outlined Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Outlined button for secondary channels and external connections.",
+      "html": "<a href=\"#\" class=\"ds-btn-secondary\">CONNECT ON LINKEDIN <svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#B79A63\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"17\" x2=\"17\" y2=\"7\"></line><polyline points=\"7 7 17 7 17 17\"></polyline></svg></a>",
+      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background-color: #18283E; color: #E2E8F0; padding: 14px 24px; border-radius: 4px; font-family: Inter, sans-serif; font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; border: 1px solid #334155; text-decoration: none; transition: all 0.2s ease; cursor: pointer; } .ds-btn-secondary:hover { background-color: #223753; border-color: rgba(183, 154, 99, 0.6); color: #FFFFFF; } .ds-icon { width: 16px; height: 16px; }"
+    },
+    {
+      "name": "Verified Credential Pill",
+      "kind": "chip",
+      "refersTo": "badge-accent",
+      "description": "Status tag with pulsating indicator for verified professional credentials.",
+      "html": "<span class=\"ds-badge\"><span class=\"ds-badge-pulse\"></span>BUET Civil '08 • PMP® Certified</span>",
+      "css": ".ds-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 9999px; background-color: #18283E; border: 1px solid rgba(183, 154, 99, 0.3); color: #E0CFA8; font-family: Inter, sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; } .ds-badge-pulse { width: 8px; height: 8px; border-radius: 9999px; background-color: #B79A63; }"
+    },
+    {
+      "name": "Executive Form Input",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "Clean, architectural text field with precise focus transition.",
+      "html": "<div class=\"ds-field-wrap\"><label class=\"ds-label\">Your Name <span class=\"ds-required\">*</span></label><input type=\"text\" class=\"ds-input\" placeholder=\"e.g. Tariq Ahmed\" /></div>",
+      "css": ".ds-field-wrap { display: flex; flex-direction: column; gap: 6px; width: 100%; font-family: Inter, sans-serif; } .ds-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #CBD5E1; } .ds-required { color: #B79A63; } .ds-input { width: 100%; height: 46px; padding: 0 16px; background-color: #18283E; border: 1px solid #334155; border-radius: 4px; color: #FFFFFF; font-size: 14px; font-family: Inter, sans-serif; box-sizing: border-box; transition: border-color 0.2s ease; } .ds-input:focus { outline: none; border-color: #B79A63; } .ds-input::placeholder { color: #64748B; }"
+    },
+    {
+      "name": "Landmark Project Showcase Card",
+      "kind": "card",
+      "refersTo": "card-dark",
+      "description": "Monographic card showcasing project title, metrics, and structural scope.",
+      "html": "<div class=\"ds-card\"><div class=\"ds-card-eyebrow\">HIGH-RISE &amp; COMMERCIAL</div><h3 class=\"ds-card-title\">Verona Condominium</h3><p class=\"ds-card-body\">160-Katha flagship residential masterwork featuring comprehensive engineering oversight, diaphragm wall construction, and premium community infrastructure.</p><div class=\"ds-card-footer\"><span class=\"ds-card-metric\">160 Katha</span><span class=\"ds-card-loc\">Dhaka, Bangladesh</span></div></div>",
+      "css": ".ds-card { background-color: #101C2C; border: 1px solid #1E293B; border-radius: 8px; padding: 24px; font-family: Inter, sans-serif; display: flex; flex-direction: column; gap: 12px; transition: border-color 0.3s ease, transform 0.3s ease; box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.4); } .ds-card:hover { border-color: rgba(183, 154, 99, 0.4); transform: translateY(-2px); } .ds-card-eyebrow { font-size: 11px; font-weight: 600; color: #B79A63; text-transform: uppercase; letter-spacing: 0.08em; } .ds-card-title { font-family: 'Playfair Display', Georgia, serif; font-size: 22px; font-weight: 400; color: #FFFFFF; margin: 0; line-height: 1.25; } .ds-card-body { font-size: 14px; font-weight: 300; line-height: 1.6; color: #CBD5E1; margin: 0; } .ds-card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #1E293B; padding-top: 14px; margin-top: 8px; font-size: 12px; color: #94A3B8; } .ds-card-metric { color: #E0CFA8; font-weight: 600; }"
+    },
+    {
+      "name": "Career Timeline Node",
+      "kind": "custom",
+      "refersTo": "timeline-node",
+      "description": "Chronological milestone element with continuous rail and gold indicator.",
+      "html": "<div class=\"ds-timeline-item\"><div class=\"ds-timeline-dot\"></div><div class=\"ds-timeline-content\"><span class=\"ds-timeline-tenure\">2022 — Present</span><h4 class=\"ds-timeline-title\">General Manager (Construction) &amp; Project Director</h4><div class=\"ds-timeline-org\">Edison Real Estate Limited</div></div></div>",
+      "css": ".ds-timeline-item { position: relative; padding-left: 28px; border-left: 2px solid #1E293B; font-family: Inter, sans-serif; padding-bottom: 24px; } .ds-timeline-dot { position: absolute; left: -9px; top: 2px; width: 16px; height: 16px; border-radius: 9999px; background-color: #B79A63; border: 2px solid #FFFFFF; box-shadow: 0 0 0 4px rgba(183, 154, 99, 0.25); } .ds-timeline-content { display: flex; flex-direction: column; gap: 4px; } .ds-timeline-tenure { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #B79A63; } .ds-timeline-title { font-family: 'Playfair Display', Georgia, serif; font-size: 18px; font-weight: 400; color: #FFFFFF; margin: 0; } .ds-timeline-org { font-size: 13px; color: #94A3B8; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Architectural Monograph",
+    "overview": "The design system embodies the gravitas, structural precision, and calm discipline of an international real estate investment monograph. Rather than resembling a high-churn SaaS landing page or a decorative portfolio template, every surface conveys the enduring weight of monumental physical construction and corporate stewardship. It pairs the architectural authority of structural civil engineering with the refined composure of a board-level executive suite. The system alternates deliberately between high-contrast Deep Midnight Navy grounds and Warm Alabaster/Ivory editorial canvases. Muted Champagne Gold is deployed with surgical discipline as an executive seal of credibility and active focus, never as wanton decoration.",
+    "keyCharacteristics": [
+      "Monographic Discipline: Editorial typography pairing classical high-contrast serif headlines with razor-sharp technical sans-serif body copy.",
+      "Architectural Framing: Subtle hairline borders, structural grid alignments, and tonal dark containment in place of loud gradients or floating cards.",
+      "Prestige Restraint: Champagne Gold is strictly capped at <=10% visual surface area to maintain its status as an authentic hallmark of prestige.",
+      "Verifiable Truth Focus: Layouts foreground concrete metrics, certified affiliations (BUET, PMP, NSU), and documented high-rise delivery without frivolous embellishment."
+    ],
+    "rules": [
+      {
+        "name": "The Ten Percent Gold Rule",
+        "body": "Muted Champagne Gold must never exceed 10% of any viewport's surface area. Its rarity is what gives it prestige and focus; overuse degrades executive gravitas into commercial clutter.",
+        "section": "colors"
+      },
+      {
+        "name": "The Ground Inversion Rule",
+        "body": "Transitions between Midnight Navy and Warm Ivory mark structural chapter changes in the narrative. When inverting grounds, text and borders immediately invert their contrast roles without introducing intermediate pastel shades.",
+        "section": "colors"
+      },
+      {
+        "name": "The Structural Editorial Rule",
+        "body": "Serif typography (Playfair Display) is strictly reserved for primary headlines, section titles, and highlighted pull-quotes. All body copy, numerical data, navigation labels, and UI controls must be set in clean sans-serif (Inter).",
+        "section": "typography"
+      },
+      {
+        "name": "The Hairline Structure Rule",
+        "body": "Surface boundaries must be defined primarily by 1px hairline borders rather than fuzzy drop shadows. Shadows serve only as ambient grounding, never as edge definitions.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do maintain the 10% limit on Muted Champagne Gold across all pages and components.",
+      "Do preserve 1px hairline borders to establish crisp architectural boundaries.",
+      "Do pair Playfair Display for editorial headlines with Inter for all body and tabular data.",
+      "Do ensure all interactive buttons and inputs meet the 44px minimum touch target height.",
+      "Do use authentic project photographs and verified metrics directly from content source of truth."
+    ],
+    "donts": [
+      "Don't use multi-color rainbow badges, bright neon accents, or unconstrained gradients.",
+      "Don't use arbitrary percentage bars (e.g. 'AutoCAD 90%') to describe competencies; express capabilities through verified projects and achievements.",
+      "Don't apply Playfair Display to buttons, navigation menus, labels, or multi-paragraph body text.",
+      "Don't use bubbly rounded card radii (>16px) or heavy cartoonish drop shadows.",
+      "Don't invent speculative claims, fictional corporate partnerships, or unverified project sizes."
+    ]
+  }
+}

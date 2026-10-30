@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowUp, Mail, Phone, FileText, ShieldCheck } from "lucide-react";
+import { ArrowUp, Mail, Phone, FileText } from "lucide-react";
 import { LinkedInIcon } from "@/components/icons/LinkedInIcon";
 import { portfolioContent } from "@/data/content";
 
@@ -14,57 +14,59 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#080E17] text-slate-400 text-xs border-t border-slate-800/80 pt-12 sm:pt-16 pb-28 sm:pb-12">
+    <footer className="bg-[#05080E] text-slate-400 text-xs border-t border-white/10 pt-16 pb-24 sm:pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Top Footer Row */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-10 pb-10 sm:pb-12 border-b border-slate-800">
+        {/* Top Colophon Row */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-white/10">
           
-          {/* Col 1 & 2: Brand & Executive Summary */}
-          <div className="lg:col-span-2 space-y-3.5 sm:space-y-4">
+          {/* Identity & Mission */}
+          <div className="lg:col-span-2 space-y-4">
             <div>
-              <span className="font-serif text-lg sm:text-xl font-bold text-white tracking-tight">
+              <span className="font-serif text-xl font-normal text-white">
                 {personalInfo.fullName}
               </span>
-              <span className="block text-[10px] sm:text-[11px] font-sans tracking-widest text-[#B79A63] uppercase mt-0.5">
-                Executive Leader &bull; Civil Engineer (BUET) &bull; PMP®
+              <span className="block text-xs font-medium tracking-[0.1em] text-[#CBB077] uppercase mt-1">
+                BUET Civil &bull; PMP® &bull; Project Director
               </span>
             </div>
 
             <p className="text-slate-400 font-light text-xs leading-relaxed max-w-sm">
-              General Manager (Construction) &amp; Project Director at Edison Real Estate Limited. Over 17 years directing major residential condominiums, LEED commercial towers, and national defense infrastructure across Bangladesh.
+              General Manager (Construction) &amp; Project Director at Edison Real Estate Limited. Over 17 years directing major residential condominiums, LEED commercial towers, and national infrastructure across Bangladesh.
             </p>
 
-            <div className="flex flex-wrap items-center gap-2 sm:gap-3 pt-2">
+            <div className="flex items-center gap-2 pt-2">
               <a
                 href={personalInfo.linkedInUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 sm:w-8 sm:h-8 rounded bg-[#101C2C] border border-slate-800 flex items-center justify-center text-slate-300 hover:text-white hover:border-[#B79A63] active:bg-[#18283E] transition-colors"
+                className="w-11 h-11 rounded bg-[#0B121E] border border-white/10 flex items-center justify-center text-slate-300 hover:text-white hover:border-[#B79A63] transition-colors"
                 title="LinkedIn Profile"
               >
                 <LinkedInIcon className="w-4 h-4" />
               </a>
+
               <a
                 href={`mailto:${personalInfo.email}`}
-                className="w-10 h-10 sm:w-8 sm:h-8 rounded bg-[#101C2C] border border-slate-800 flex items-center justify-center text-slate-300 hover:text-white hover:border-[#B79A63] active:bg-[#18283E] transition-colors"
+                className="w-11 h-11 rounded bg-[#0B121E] border border-white/10 flex items-center justify-center text-slate-300 hover:text-white hover:border-[#B79A63] transition-colors"
                 title="Email Engr. Reza"
               >
                 <Mail className="w-4 h-4" />
               </a>
+
               <a
-                href={`tel:${personalInfo.phone.replace(/\s+/g, "")}`}
-                className="w-10 h-10 sm:w-8 sm:h-8 rounded bg-[#101C2C] border border-slate-800 flex items-center justify-center text-slate-300 hover:text-white hover:border-[#B79A63] active:bg-[#18283E] transition-colors"
-                title="Call Phone"
+                href={`tel:${personalInfo.phone.replace(/[^0-9+]/g, "")}`}
+                className="w-11 h-11 rounded bg-[#0B121E] border border-white/10 flex items-center justify-center text-slate-300 hover:text-white hover:border-[#B79A63] transition-colors"
+                title="Telephone Direct"
               >
                 <Phone className="w-4 h-4" />
               </a>
+
               <a
                 href={personalInfo.resumePdfPath}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-2 sm:py-1.5 rounded bg-[#101C2C] border border-slate-800 text-[11px] text-slate-300 hover:text-white hover:border-[#B79A63] active:bg-[#18283E] transition-colors min-h-[40px] sm:min-h-0"
-                title="Official Executive Resume PDF"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2.5 min-h-[44px] rounded bg-[#0B121E] border border-white/10 text-xs text-slate-300 hover:text-white hover:border-[#B79A63] transition-colors"
               >
                 <FileText className="w-3.5 h-3.5 text-[#B79A63]" />
                 <span>Resume (PDF)</span>
@@ -72,109 +74,94 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Col 3: Navigation Sitemap */}
+          {/* Navigation Sitemap */}
           <div>
-            <h4 className="font-serif text-xs sm:text-sm font-semibold text-white uppercase tracking-wider mb-3 sm:mb-4">
-              Navigation
-            </h4>
-            <ul className="space-y-2 sm:space-y-2.5">
+            <div className="text-xs uppercase tracking-[0.1em] font-medium text-white mb-4">
+              Sections
+            </div>
+            <ul className="space-y-2 text-xs">
               <li>
-                <Link href="#about" className="hover:text-[#CBB077] transition-colors py-1 inline-block">
+                <Link href="#about" className="hover:text-white transition-colors">
                   Executive Biography
                 </Link>
               </li>
               <li>
-                <Link href="#experience" className="hover:text-[#CBB077] transition-colors py-1 inline-block">
+                <Link href="#experience" className="hover:text-white transition-colors">
                   Career Journey
                 </Link>
               </li>
               <li>
-                <Link href="#expertise" className="hover:text-[#CBB077] transition-colors py-1 inline-block">
-                  Core Competencies
-                </Link>
-              </li>
-              <li>
-                <Link href="#projects" className="hover:text-[#CBB077] transition-colors py-1 inline-block">
+                <Link href="#projects" className="hover:text-white transition-colors">
                   Selected Projects
                 </Link>
               </li>
               <li>
-                <Link href="#philosophy" className="hover:text-[#CBB077] transition-colors py-1 inline-block">
-                  Leadership Philosophy
+                <Link href="#expertise" className="hover:text-white transition-colors">
+                  Strategic Capabilities
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Col 4: Mentorship & Thought Leadership */}
           <div>
-            <h4 className="font-serif text-xs sm:text-sm font-semibold text-white uppercase tracking-wider mb-3 sm:mb-4">
-              Engagement
-            </h4>
-            <ul className="space-y-2 sm:space-y-2.5">
+            <div className="text-xs uppercase tracking-[0.1em] font-medium text-white mb-4">
+              Leadership
+            </div>
+            <ul className="space-y-2 text-xs">
               <li>
-                <Link href="#mentorship" className="hover:text-[#CBB077] transition-colors py-1 inline-block">
-                  LCB Mentorship
+                <Link href="#philosophy" className="hover:text-white transition-colors">
+                  Guiding Principles
                 </Link>
               </li>
               <li>
-                <Link href="#mentorship" className="hover:text-[#CBB077] transition-colors py-1 inline-block">
-                  PMI Bangladesh Chapter
+                <Link href="#mentorship" className="hover:text-white transition-colors">
+                  Community Mentorship
                 </Link>
               </li>
               <li>
-                <Link href="#insights" className="hover:text-[#CBB077] transition-colors py-1 inline-block">
-                  Publications &amp; Insights
+                <Link href="#insights" className="hover:text-white transition-colors">
+                  Thought Leadership
                 </Link>
               </li>
               <li>
-                <Link href="#credentials" className="hover:text-[#CBB077] transition-colors py-1 inline-block">
-                  Academic Degrees (BUET)
-                </Link>
-              </li>
-              <li>
-                <Link href="#contact" className="hover:text-[#CBB077] transition-colors py-1 inline-block">
-                  Connect &amp; Inquire
+                <Link href="#credentials" className="hover:text-white transition-colors">
+                  Education &amp; Licensure
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Col 5: Verified Status & Pre-Publication Note */}
-          <div>
-            <h4 className="font-serif text-xs sm:text-sm font-semibold text-white uppercase tracking-wider mb-3 sm:mb-4">
-              Authenticity
-            </h4>
-            <div className="p-3 sm:p-3.5 rounded bg-[#101C2C] border border-slate-800 space-y-2">
-              <div className="flex items-center gap-1.5 text-emerald-400 font-medium text-[11px]">
-                <ShieldCheck className="w-4 h-4 shrink-0" />
-                <span>Verified Career Portfolio</span>
+          {/* Colophon & Back to Top */}
+          <div className="flex flex-col justify-between">
+            <div>
+              <div className="text-xs uppercase tracking-[0.1em] font-medium text-white mb-4">
+                Colophon
               </div>
-              <p className="text-[10px] sm:text-[11px] text-slate-400 leading-normal">
-                Curated exclusively from verified public credentials, official resume documentation, and photographic records.
+              <p className="text-slate-400 font-light text-xs leading-relaxed">
+                Designed as an architectural monograph. Typeset in Playfair Display &amp; Inter. Built with Next.js &amp; Tailwind CSS.
               </p>
             </div>
 
             <button
               type="button"
               onClick={scrollToTop}
-              className="mt-4 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-wider font-semibold text-slate-300 hover:text-[#B79A63] transition-colors min-h-[44px] py-1"
+              className="mt-6 inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.1em] font-medium text-[#CBB077] hover:text-white min-h-[44px] transition-colors self-start focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#B79A63]"
             >
               <span>Back to Top</span>
-              <ArrowUp className="w-3.5 h-3.5 text-[#B79A63]" />
+              <ArrowUp className="w-3.5 h-3.5" />
             </button>
           </div>
 
         </div>
 
-        {/* Bottom Copyright & Disclaimer */}
-        <div className="pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-[10px] sm:text-[11px] text-slate-500">
-          <p>
-            &copy; 2026 Abu Helal Rashid Reza. All rights reserved.
-          </p>
-          <p className="text-center sm:text-right">
-            Designed to executive editorial standards &bull; Built with Next.js &amp; TypeScript.
-          </p>
+        {/* Bottom Notice & Copyright */}
+        <div className="pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-slate-500 font-light">
+          <div>
+            &copy; 2026 Engr. Abu Helal Rashid Reza. All rights reserved.
+          </div>
+          <div className="text-xs uppercase tracking-[0.08em] font-medium text-slate-500">
+            Authentic Professional Record &bull; Dhaka, Bangladesh
+          </div>
         </div>
 
       </div>

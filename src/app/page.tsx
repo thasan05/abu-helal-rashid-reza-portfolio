@@ -16,47 +16,47 @@ import MobileQuickBar from "@/components/MobileQuickBar";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen flex flex-col bg-[#101C2C] text-slate-100 selection:bg-[#B79A63] selection:text-white relative overflow-x-hidden">
-      {/* Sticky Executive Navigation Bar */}
+    <main id="main-content" className="min-h-screen flex flex-col bg-[#070C14] text-slate-100 selection:bg-[#B79A63] selection:text-[#070C14] relative overflow-x-hidden">
+      {/* Architectural Navigation Bar */}
       <Navbar />
 
-      {/* Hero Section */}
+      {/* Hero Opening Monograph Spread */}
       <Hero />
 
-      {/* Section C: Executive Introduction */}
+      {/* Executive Biography */}
       <ExecutiveIntroduction />
 
-      {/* Section D: Career Journey & Verified Timeline */}
+      {/* Career Journey & Verified Progression Ledger */}
       <CareerTimeline />
 
-      {/* Section E: Expertise & Strategic Capabilities */}
-      <ExpertiseGrid />
-
-      {/* Section F: Selected Projects & Professional Impact */}
+      {/* Selected Landmark Developments */}
       <ProfessionalImpact />
 
-      {/* Section G: Leadership Philosophy */}
+      {/* Strategic Capabilities Matrix */}
+      <ExpertiseGrid />
+
+      {/* Principles of Governance & Stewardship */}
       <LeadershipPhilosophy />
 
-      {/* Section H: Mentorship & Industry Community (LCB & PMI) */}
+      {/* Community Leadership & Mentorship */}
       <Mentorship />
 
-      {/* Section I: Publications & Thought Leadership Insights */}
+      {/* Publications & Thought Leadership Insights */}
       <InsightsGrid />
 
-      {/* Section J: Education, Certifications & Memberships */}
+      {/* Academic Pedigree & Licensure Register */}
       <Credentials />
 
-      {/* Section K: Personal Dimension (Athletics & Discipline) */}
+      {/* The Discipline of Endurance */}
       <PersonalDimension />
 
-      {/* Section L: Executive Contact */}
+      {/* Executive Consultation & Direct Dialogue */}
       <ContactSection />
 
-      {/* Executive Footer */}
+      {/* Colophon & Index Footer */}
       <Footer />
 
-      {/* Floating Thumb-Friendly Mobile Quick Action Dock */}
+      {/* Mobile Ergonomic Quick Dock */}
       <MobileQuickBar />
     </main>
   );

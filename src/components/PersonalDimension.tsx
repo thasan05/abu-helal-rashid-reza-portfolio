@@ -2,84 +2,81 @@
 
 import React from "react";
 import Image from "next/image";
-import { Flame, BookOpen, Activity, Medal, Check } from "lucide-react";
-import { portfolioContent, PersonalInterest } from "@/data/content";
-
-const iconMap: Record<string, React.ReactNode> = {
-  Flame: <Flame className="w-5 h-5 text-[#B79A63]" />,
-  BookOpen: <BookOpen className="w-5 h-5 text-[#B79A63]" />,
-  Activity: <Activity className="w-5 h-5 text-[#B79A63]" />,
-};
+import { portfolioContent } from "@/data/content";
 
 export default function PersonalDimension() {
   const { personalDimension } = portfolioContent;
 
   return (
-    <section className="py-16 sm:py-20 lg:py-24 bg-[#FAF8F5] text-[#101C2C] relative">
+    <section className="py-20 sm:py-28 lg:py-32 bg-[#070C14] border-b border-white/10 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="max-w-3xl mb-10 sm:mb-14 lg:mb-16">
-          <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-[#B79A63] mb-2 sm:mb-3">
-            <span className="w-6 h-[1.5px] bg-[#B79A63]" />
-            <span>Discipline &amp; Perspective</span>
+        <div className="max-w-3xl mb-12 sm:mb-16">
+          <div className="text-xs uppercase tracking-[0.14em] font-semibold text-[#CBB077] mb-3">
+            Chapter IX &bull; Endurance &amp; Discipline
           </div>
-          <h2 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-normal text-[#101C2C] leading-tight tracking-tight">
-            The Personal Dimension: Discipline &amp; Endurance
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-white tracking-tight leading-tight">
+            The discipline of endurance.
           </h2>
-          <p className="mt-3 sm:mt-4 text-sm sm:text-base lg:text-lg text-slate-600 font-light leading-relaxed">
+          <p className="mt-4 text-base sm:text-lg text-slate-300 font-light leading-relaxed">
             {personalDimension.intro}
           </p>
         </div>
 
-        {/* 3 Pillars Grid with Authentic Imagery */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-          {personalDimension.interests.map((item: PersonalInterest, idx) => (
-            <div
-              key={idx}
-              className="bg-white rounded-xl overflow-hidden border border-slate-200 hover:border-[#B79A63]/60 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
-            >
-              {item.imageUrl && (
-                <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-200">
-                  <Image
-                    src={item.imageUrl}
-                    alt={item.title}
-                    fill
-                    sizes="(max-width: 640px) 100vw, 33vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                  
-                  {/* Floating Tag */}
-                  <div className="absolute bottom-2.5 left-2.5 sm:bottom-3 sm:left-3 flex items-center gap-1.5 px-2.5 py-1 rounded bg-white/95 backdrop-blur-sm text-[10px] sm:text-[11px] font-mono font-medium text-[#101C2C]">
-                    <Medal className="w-3.5 h-3.5 text-[#B79A63]" />
-                    <span>{item.highlight}</span>
-                  </div>
-                </div>
-              )}
-
-              <div className="p-4 sm:p-6 flex flex-col justify-between flex-grow">
-                <div>
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-[#FAF8F5] border border-slate-200 flex items-center justify-center mb-3 sm:mb-4">
-                    {iconMap[item.iconName] || <Activity className="w-5 h-5 text-[#B79A63]" />}
-                  </div>
-
-                  <h3 className="font-serif text-lg sm:text-xl font-bold text-[#101C2C] mb-1.5 sm:mb-2 leading-snug group-hover:text-[#9E814B] transition-colors">
-                    {item.title}
-                  </h3>
-
-                  <p className="text-xs sm:text-sm text-slate-600 font-light leading-relaxed">
-                    {item.description}
-                  </p>
-                </div>
-
-                <div className="pt-3 sm:pt-4 mt-4 sm:mt-6 border-t border-slate-100 flex items-center gap-2 text-xs font-medium text-[#9E814B]">
-                  <Check className="w-4 h-4 text-[#B79A63]" />
-                  <span>Disciplined Habit &bull; Verified</span>
-                </div>
+        {/* 2-Column Photojournalistic Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mb-12">
+          
+          {/* Dual Imagery */}
+          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="rounded-lg overflow-hidden border border-white/10 bg-[#0B121E]">
+              <div className="relative aspect-[3/4] w-full">
+                <Image
+                  src="/images/reza-marathon-run.jpg"
+                  alt="Engr. Reza running in the Inspiring Bangladesh Marathon"
+                  fill
+                  sizes="(max-width: 640px) 100vw, 350px"
+                  className="object-cover"
+                />
+              </div>
+              <div className="p-3 bg-[#0B121E] text-xs uppercase tracking-[0.08em] font-medium text-slate-400">
+                On-Course 15K Pace &bull; Inspiring Bangladesh
               </div>
             </div>
-          ))}
+
+            <div className="rounded-lg overflow-hidden border border-white/10 bg-[#0B121E]">
+              <div className="relative aspect-[3/4] w-full">
+                <Image
+                  src="/images/reza-marathon-finisher.jpg"
+                  alt="Engr. Reza holding 15K finisher medal Bib 75767"
+                  fill
+                  sizes="(max-width: 640px) 100vw, 350px"
+                  className="object-cover"
+                />
+              </div>
+              <div className="p-3 bg-[#0B121E] text-xs uppercase tracking-[0.08em] font-medium text-[#CBB077]">
+                Official 15K Finisher &bull; Bib #75767
+              </div>
+            </div>
+          </div>
+
+          {/* Editorial Pillars */}
+          <div className="lg:col-span-5 space-y-6">
+            {personalDimension.interests.map((item, idx) => (
+              <div key={idx} className="p-5 rounded-[6px] bg-[#0B121E] border border-white/10">
+                <div className="text-xs uppercase tracking-[0.1em] font-medium text-[#CBB077] mb-1">
+                  {item.highlight}
+                </div>
+                <h3 className="font-serif text-lg font-normal text-white mb-2">
+                  {item.title}
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-300 font-light leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
+            ))}
+          </div>
+
         </div>
 
       </div>

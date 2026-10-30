@@ -1,188 +1,154 @@
 "use client";
 
 import React, { useState } from "react";
-import { Briefcase, Calendar, MapPin, CheckCircle2, ChevronDown, ChevronUp, ShieldCheck } from "lucide-react";
+import { ChevronDown, ChevronUp, CheckCircle, MapPin } from "lucide-react";
 import { portfolioContent, CareerRole } from "@/data/content";
 
 export default function CareerTimeline() {
   const { careerTimeline } = portfolioContent;
-  const [expandedId, setExpandedId] = useState<string | null>("edison-real-estate");
+  const [expandedRoles, setExpandedRoles] = useState<Record<string, boolean>>({
+    "edison-real-estate": true,
+    "rangs-properties": true,
+  });
 
-  const toggleExpand = (id: string) => {
-    setExpandedId(expandedId === id ? null : id);
+  const toggleRole = (id: string) => {
+    setExpandedRoles((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
   };
 
   return (
-    <section id="experience" className="py-16 sm:py-20 lg:py-24 bg-[#101C2C] text-slate-100 relative overflow-hidden">
-      {/* Subtle background decoration */}
-      <div className="absolute top-1/4 right-0 w-72 sm:w-96 h-72 sm:h-96 bg-[#B79A63]/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 left-0 w-72 sm:w-96 h-72 sm:h-96 bg-[#18283E]/40 rounded-full blur-3xl pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+    <section id="experience" className="py-20 sm:py-28 lg:py-32 bg-[#0B121E] border-b border-white/10 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="max-w-3xl mb-10 sm:mb-14 lg:mb-16">
-          <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-[#B79A63] mb-2 sm:mb-3">
-            <span className="w-6 h-[1.5px] bg-[#B79A63]" />
-            <span>Chronological Narrative</span>
+        <div className="max-w-3xl mb-12 sm:mb-16">
+          <div className="text-xs uppercase tracking-[0.14em] font-semibold text-[#CBB077] mb-3">
+            Chapter II &bull; Chronological Ledger
           </div>
-          <h2 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-normal text-white leading-tight tracking-tight">
-            Career Journey &amp; Executive Leadership
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-white tracking-tight leading-tight">
+            Seventeen years of operational progression.
           </h2>
-          <p className="mt-3 sm:mt-4 text-sm sm:text-base lg:text-lg text-slate-300 font-light leading-relaxed">
-            Seventeen years of verified progression from on-site structural engineering to C-level operational governance and master-planned condominium direction.
+          <p className="mt-4 text-base sm:text-lg text-slate-300 font-light leading-relaxed">
+            From foundational on-site structural execution and LEED high-rise coordination to C-suite executive governance and 160-katha condominium direction.
           </p>
         </div>
 
-        {/* Timeline Container */}
-        <div className="relative border-l-2 border-slate-800 ml-2.5 sm:ml-8 md:ml-32 space-y-8 sm:space-y-12">
-          
+        {/* Executive Chronological Ledger with Structural Rail Guide */}
+        <div className="border-t border-white/15 divide-y divide-white/10 relative">
           {careerTimeline.map((role: CareerRole) => {
-            const isExpanded = expandedId === role.id;
+            const isExpanded = !!expandedRoles[role.id];
 
             return (
-              <div key={role.id} className="relative pl-4 sm:pl-10 group">
+              <div key={role.id} className="py-8 sm:py-10 transition-colors group">
                 
-                {/* Timeline Dot Indicator */}
-                <div
-                  className={`absolute -left-[9px] top-1.5 w-4 h-4 rounded-full border-2 transition-all duration-300 ${
-                    role.isCurrent
-                      ? "bg-[#B79A63] border-white ring-4 ring-[#B79A63]/30"
-                      : "bg-[#101C2C] border-[#B79A63] group-hover:bg-[#B79A63]"
-                  }`}
-                />
-
-                {/* Left Desktop Tenure Label */}
-                <div className="hidden md:block absolute -left-36 top-1 text-right w-28">
-                  <span className={`text-xs font-mono font-semibold uppercase tracking-wider ${
-                    role.isCurrent ? "text-[#CBB077]" : "text-slate-400"
-                  }`}>
-                    {role.tenure}
-                  </span>
-                  {role.isCurrent && (
-                    <span className="block text-[10px] uppercase font-bold tracking-widest text-[#B79A63] mt-0.5">
-                      Current Role
-                    </span>
-                  )}
-                </div>
-
-                {/* Main Card */}
-                <div className="bg-[#18283E]/70 hover:bg-[#18283E] transition-all duration-300 rounded-lg p-4 sm:p-6 lg:p-8 border border-slate-800 hover:border-[#B79A63]/40 shadow-lg">
+                {/* Ledger Main Row */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-start">
                   
-                  {/* Mobile Tenure / Status */}
-                  <div className="flex md:hidden items-center justify-between gap-2 mb-2 sm:mb-3">
-                    <span className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-[#CBB077]">
-                      <Calendar className="w-3.5 h-3.5" />
-                      {role.tenure}
+                  {/* Tenure Column */}
+                  <div className="lg:col-span-3">
+                    <div className="flex items-center gap-2">
+                      <span className={`w-2 h-2 rounded-full ${role.isCurrent ? "bg-[#B79A63] ring-4 ring-[#B79A63]/20" : "bg-slate-600"}`} />
+                      <span className="text-xs sm:text-sm font-semibold tracking-[0.1em] text-[#CBB077] uppercase block">
+                        {role.tenure}
+                      </span>
+                    </div>
+                    <span className="text-xs text-slate-400 flex items-center gap-1 mt-1.5 pl-4">
+                      <MapPin className="w-3.5 h-3.5 text-slate-500" />
+                      <span>{role.location}</span>
                     </span>
                     {role.isCurrent && (
-                      <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-[#B79A63]/20 text-[#E0CFA8] border border-[#B79A63]/40">
-                        Present
+                      <span className="inline-block mt-2.5 ml-4 px-2.5 py-0.5 rounded-[4px] text-xs font-semibold uppercase tracking-[0.08em] bg-[#B79A63]/20 text-[#E0CFA8] border border-[#B79A63]/40">
+                        Active Project Directorate
                       </span>
                     )}
                   </div>
 
-                  {/* Header info */}
-                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 sm:gap-3 pb-3 sm:pb-4 border-b border-slate-800">
-                    <div>
-                      <h3 className="font-serif text-lg sm:text-2xl font-semibold text-white tracking-tight">
-                        {role.roleTitle}
-                      </h3>
-                      <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-1 sm:mt-1.5 text-xs sm:text-sm">
-                        <span className="font-medium text-[#CBB077]">
-                          {role.organization}
-                        </span>
-                        <span className="text-slate-500">•</span>
-                        <span className="inline-flex items-center gap-1 text-slate-400 text-xs">
-                          <MapPin className="w-3 h-3 text-[#B79A63]" />
-                          {role.location}
-                        </span>
-                      </div>
+                  {/* Role Title & Organization */}
+                  <div className="lg:col-span-6">
+                    <h3 className="font-serif text-xl sm:text-2xl font-normal text-white mb-1 group-hover:text-[#E0CFA8] transition-colors">
+                      {role.roleTitle}
+                    </h3>
+                    <div className="text-sm font-medium text-[#B79A63] tracking-wide mb-3">
+                      {role.organization}
                     </div>
+                    <p className="text-sm sm:text-base text-slate-300 font-light leading-relaxed mb-4">
+                      {role.summary}
+                    </p>
 
-                    <div className="flex items-center gap-2 self-start mt-1 sm:mt-0">
-                      <span className="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-medium text-emerald-400 bg-emerald-950/40 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded border border-emerald-800/40">
-                        <ShieldCheck className="w-3 h-3" />
-                        <span>Verified</span>
-                      </span>
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-1.5 mb-2">
+                      {role.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-2.5 py-1 rounded-[4px] text-xs bg-[#142236] text-slate-300 border border-white/10"
+                        >
+                          {tag}
+                        </span>
+                      ))}
                     </div>
                   </div>
 
-                  {/* Summary */}
-                  <p className="mt-3 sm:mt-4 text-xs sm:text-sm lg:text-base text-slate-300 font-light leading-relaxed">
-                    {role.summary}
-                  </p>
+                  {/* Expand / Details Action */}
+                  <div className="lg:col-span-3 lg:text-right flex lg:flex-col justify-between items-start lg:items-end gap-2">
+                    <span className="text-xs text-slate-400 uppercase tracking-[0.08em] font-medium">
+                      {role.verificationStatus}
+                    </span>
 
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-3 sm:mt-4">
-                    {role.tags.map((tag, idx) => (
-                      <span
-                        key={idx}
-                        className="text-[10px] sm:text-[11px] font-mono px-2 py-0.5 rounded bg-[#101C2C] text-slate-400 border border-slate-800"
-                      >
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Expandable Key Responsibilities & Achievements */}
-                  {isExpanded && (
-                    <div className="mt-5 sm:mt-6 pt-5 sm:pt-6 border-t border-slate-800/80 space-y-5 sm:space-y-6">
-                      
-                      {/* Responsibilities */}
-                      <div>
-                        <h4 className="text-xs uppercase tracking-wider font-semibold text-[#E0CFA8] mb-2 sm:mb-3 flex items-center gap-2">
-                          <Briefcase className="w-3.5 h-3.5 text-[#B79A63]" />
-                          <span>Core Responsibilities</span>
-                        </h4>
-                        <ul className="space-y-2">
-                          {role.responsibilities.map((resp, idx) => (
-                            <li key={idx} className="flex items-start gap-2 text-xs sm:text-sm text-slate-300 leading-normal">
-                              <span className="w-1.5 h-1.5 rounded-full bg-[#B79A63] mt-1.5 shrink-0" />
-                              <span>{resp}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      {/* Key Achievements */}
-                      <div>
-                        <h4 className="text-xs uppercase tracking-wider font-semibold text-[#E0CFA8] mb-2 sm:mb-3 flex items-center gap-2">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                          <span>Key Documented Achievements</span>
-                        </h4>
-                        <ul className="space-y-2">
-                          {role.keyAchievements.map((ach, idx) => (
-                            <li key={idx} className="flex items-start gap-2 text-xs sm:text-sm text-slate-200 font-normal leading-normal">
-                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 shrink-0" />
-                              <span>{ach}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
-                    </div>
-                  )}
-
-                  {/* Toggle button: thumb-friendly */}
-                  <div className="mt-4 sm:mt-5 pt-3 flex">
                     <button
                       type="button"
-                      onClick={() => toggleExpand(role.id)}
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#CBB077] hover:text-white px-3 py-2.5 rounded bg-[#101C2C]/60 sm:bg-transparent border border-slate-700/60 sm:border-0 active:bg-white/10 transition-colors min-h-[44px]"
+                      onClick={() => toggleRole(role.id)}
+                      className="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-[#CBB077] hover:text-white min-h-[44px] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#B79A63]"
                       aria-expanded={isExpanded}
                     >
-                      <span>{isExpanded ? "Collapse Details" : "View Responsibilities & Achievements"}</span>
-                      {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                      <span>{isExpanded ? "Hide Responsibilities" : "View Responsibilities"}</span>
+                      {isExpanded ? (
+                        <ChevronUp className="w-3.5 h-3.5" />
+                      ) : (
+                        <ChevronDown className="w-3.5 h-3.5" />
+                      )}
                     </button>
                   </div>
 
                 </div>
 
+                {/* Expanded Detailed Responsibilities & Key Outcomes */}
+                {isExpanded && (
+                  <div className="mt-6 pt-6 border-t border-white/5 grid grid-cols-1 md:grid-cols-2 gap-6 pl-0 lg:pl-[25%]">
+                    <div className="p-4 rounded-[4px] bg-[#142236]/60 border border-white/5">
+                      <h4 className="text-xs uppercase tracking-[0.1em] text-[#CBB077] font-semibold mb-3">
+                        Mandate &amp; Responsibilities
+                      </h4>
+                      <ul className="space-y-2 text-xs sm:text-sm text-slate-300 font-light">
+                        {role.responsibilities.map((resp, idx) => (
+                          <li key={idx} className="flex items-start gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#B79A63] mt-2 shrink-0" />
+                            <span>{resp}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="p-4 rounded-[4px] bg-[#142236]/60 border border-white/5">
+                      <h4 className="text-xs uppercase tracking-[0.1em] text-[#CBB077] font-semibold mb-3">
+                        Key Operational Outcomes
+                      </h4>
+                      <ul className="space-y-2 text-xs sm:text-sm text-slate-300 font-light">
+                        {role.keyAchievements.map((ach, idx) => (
+                          <li key={idx} className="flex items-start gap-2">
+                            <CheckCircle className="w-4 h-4 text-[#CBB077] mt-0.5 shrink-0" />
+                            <span>{ach}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                )}
+
               </div>
             );
           })}
-
         </div>
 
       </div>
