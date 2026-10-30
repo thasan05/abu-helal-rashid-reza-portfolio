@@ -1,7 +1,8 @@
 import React from "react";
 import { query } from "@/lib/db/client";
 import { saveCareerRole, deleteCareerRole } from "../cms-actions";
-import { Briefcase, Plus, Trash2, Save, MapPin, CheckCircle2 } from "lucide-react";
+import DeleteActionButton from "../DeleteActionButton";
+import { Briefcase, Plus, Save, MapPin, CheckCircle2 } from "lucide-react";
 
 export default async function TimelineAdminPage() {
   const roles = await query(`SELECT * FROM career_roles ORDER BY sort_order ASC`);
@@ -51,18 +52,12 @@ export default async function TimelineAdminPage() {
                   )}
                 </div>
 
-                <button
-                  type="button"
-                  onClick={async () => {
-                    if (confirm(`Delete role at ${role.organization} permanently?`)) {
-                      await deleteCareerRole(role.id);
-                    }
-                  }}
-                  className="p-1.5 text-slate-500 hover:text-red-400 transition-colors"
+                <DeleteActionButton
+                  action={deleteCareerRole}
+                  id={role.id}
+                  confirmMessage={`Delete role at ${role.organization} permanently?`}
                   title="Delete role"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
+                />
               </div>
 
               <form action={saveCareerRole} className="space-y-5">

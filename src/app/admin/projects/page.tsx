@@ -2,7 +2,8 @@ import React from "react";
 import Image from "next/image";
 import { query } from "@/lib/db/client";
 import { saveProject, deleteProject } from "../cms-actions";
-import { Building2, Plus, Trash2, Save, Star, MapPin, CheckCircle2 } from "lucide-react";
+import DeleteActionButton from "../DeleteActionButton";
+import { Building2, Plus, Save, Star, MapPin, CheckCircle2 } from "lucide-react";
 
 export default async function ProjectsAdminPage() {
   const projects = await query(`SELECT * FROM projects ORDER BY sort_order ASC`);
@@ -69,18 +70,12 @@ export default async function ProjectsAdminPage() {
                 </div>
 
                 <div className="flex items-center gap-2 self-end sm:self-center">
-                  <button
-                    type="button"
-                    onClick={async () => {
-                      if (confirm(`Delete project "${proj.title}" permanently?`)) {
-                        await deleteProject(proj.id);
-                      }
-                    }}
-                    className="p-1.5 text-slate-500 hover:text-red-400 transition-colors"
+                  <DeleteActionButton
+                    action={deleteProject}
+                    id={proj.id}
+                    confirmMessage={`Delete project "${proj.title}" permanently?`}
                     title="Delete project"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
+                  />
                 </div>
               </div>
 

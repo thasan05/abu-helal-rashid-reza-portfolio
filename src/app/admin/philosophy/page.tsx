@@ -1,7 +1,8 @@
 import React from "react";
 import { query, queryOne } from "@/lib/db/client";
 import { updateLeadershipPhilosophy, saveLeadershipPrinciple, deleteLeadershipPrinciple } from "../cms-actions";
-import { Compass, Plus, Trash2, Save, Quote } from "lucide-react";
+import DeleteActionButton from "../DeleteActionButton";
+import { Compass, Plus, Save, Quote } from "lucide-react";
 
 export default async function PhilosophyAdminPage() {
   const philo = (await queryOne(`SELECT * FROM leadership_philosophy WHERE id = 'default'`)) || {};
@@ -55,17 +56,12 @@ export default async function PhilosophyAdminPage() {
           <div key={pr.id} className="bg-[#0B121E] border border-white/10 rounded-xl p-6 sm:p-8 space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-white/10">
               <span className="font-serif text-lg text-white">{pr.headline}</span>
-              <button
-                type="button"
-                onClick={async () => {
-                  if (confirm(`Delete principle "${pr.headline}"?`)) {
-                    await deleteLeadershipPrinciple(pr.id);
-                  }
-                }}
-                className="p-1.5 text-slate-500 hover:text-red-400"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
+              <DeleteActionButton
+                action={deleteLeadershipPrinciple}
+                id={pr.id}
+                confirmMessage={`Delete principle "${pr.headline}"?`}
+                className="p-1.5 text-slate-500 hover:text-red-400 cursor-pointer"
+              />
             </div>
 
             <form action={saveLeadershipPrinciple} className="space-y-4">

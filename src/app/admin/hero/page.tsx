@@ -1,7 +1,8 @@
 import React from "react";
 import { query, queryOne } from "@/lib/db/client";
 import { updateHeroSettings, saveHeadlineMetric, deleteHeadlineMetric } from "../cms-actions";
-import { Sparkles, Save, Plus, Trash2, ArrowUpDown, Eye, EyeOff } from "lucide-react";
+import DeleteActionButton from "../DeleteActionButton";
+import { Sparkles, Save, Plus, ArrowUpDown, Eye, EyeOff } from "lucide-react";
 
 export default async function HeroAdminPage() {
   const hero = (await queryOne(`SELECT * FROM hero_settings WHERE id = 'default'`)) || {};
@@ -232,18 +233,12 @@ export default async function HeroAdminPage() {
                   >
                     Save
                   </button>
-                  <button
-                    type="button"
-                    onClick={async () => {
-                      if (confirm("Delete this metric permanently?")) {
-                        await deleteHeadlineMetric(m.id);
-                      }
-                    }}
-                    className="p-1.5 text-slate-500 hover:text-red-400 transition-colors"
+                  <DeleteActionButton
+                    action={deleteHeadlineMetric}
+                    id={m.id}
+                    confirmMessage={`Delete headline metric "${m.label}" permanently?`}
                     title="Delete metric"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
+                  />
                 </div>
               </div>
             </form>

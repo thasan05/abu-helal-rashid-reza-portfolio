@@ -2,7 +2,8 @@ import React from "react";
 import Image from "next/image";
 import { query, queryOne } from "@/lib/db/client";
 import { updatePersonalDimension, savePersonalInterest, deletePersonalInterest } from "../cms-actions";
-import { Activity, Plus, Trash2, Save } from "lucide-react";
+import DeleteActionButton from "../DeleteActionButton";
+import { Activity, Plus, Save } from "lucide-react";
 
 export default async function PersonalAdminPage() {
   const dimension = (await queryOne(`SELECT * FROM personal_dimension WHERE id = 'default'`)) || {};
@@ -66,17 +67,12 @@ export default async function PersonalAdminPage() {
                   <div className="text-xs text-slate-400">{pi.highlight}</div>
                 </div>
               </div>
-              <button
-                type="button"
-                onClick={async () => {
-                  if (confirm(`Delete interest "${pi.title}"?`)) {
-                    await deletePersonalInterest(pi.id);
-                  }
-                }}
-                className="p-1.5 text-slate-500 hover:text-red-400"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
+              <DeleteActionButton
+                action={deletePersonalInterest}
+                id={pi.id}
+                confirmMessage={`Delete interest "${pi.title}"?`}
+                className="p-1.5 text-slate-500 hover:text-red-400 cursor-pointer"
+              />
             </div>
 
             <form action={savePersonalInterest} className="space-y-4">

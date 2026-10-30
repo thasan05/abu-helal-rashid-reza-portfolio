@@ -626,6 +626,13 @@ export async function updateSectionConfig(sectionKey: string, isVisible: boolean
   revalidatePath("/", "layout");
 }
 
+export async function saveSectionConfig(formData: FormData): Promise<void> {
+  const sectionKey = formData.get("sectionKey") as string;
+  const isVisible = formData.get("isVisible") === "true";
+  const sortOrder = parseInt(formData.get("sortOrder") as string, 10) || 0;
+  await updateSectionConfig(sectionKey, isVisible, sortOrder);
+}
+
 // ==========================================
 // 15. THEME CUSTOMIZATION
 // ==========================================

@@ -1,6 +1,6 @@
 import React from "react";
 import { query } from "@/lib/db/client";
-import { updateSectionConfig } from "../cms-actions";
+import { saveSectionConfig } from "../cms-actions";
 import { Sliders, Eye, EyeOff, Save, ArrowUpDown } from "lucide-react";
 
 export default async function LayoutConfigAdminPage() {
@@ -35,14 +35,10 @@ export default async function LayoutConfigAdminPage() {
           {sections.map((sec: any) => (
             <form
               key={sec.section_key}
-              action={async (formData: FormData) => {
-                "use server";
-                const isVisible = formData.get("isVisible") === "true";
-                const sortOrder = parseInt(formData.get("sortOrder") as string, 10);
-                await updateSectionConfig(sec.section_key, isVisible, sortOrder);
-              }}
+              action={saveSectionConfig}
               className="p-4 bg-[#070C14] border border-white/10 rounded-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
             >
+              <input type="hidden" name="sectionKey" value={sec.section_key} />
               <div className="flex items-center gap-3">
                 <span className={`w-2.5 h-2.5 rounded-full ${sec.is_visible ? "bg-emerald-500" : "bg-slate-600"}`} />
                 <div>

@@ -1,7 +1,8 @@
 import React from "react";
 import { query } from "@/lib/db/client";
 import { saveExpertiseArea, deleteExpertiseArea } from "../cms-actions";
-import { Wrench, Plus, Trash2, Save } from "lucide-react";
+import DeleteActionButton from "../DeleteActionButton";
+import { Wrench, Plus, Save } from "lucide-react";
 
 export default async function ExpertiseAdminPage() {
   const areas = await query(`SELECT * FROM expertise_areas ORDER BY sort_order ASC`);
@@ -32,17 +33,11 @@ export default async function ExpertiseAdminPage() {
                   <span className="font-serif text-xl text-white">{area.title}</span>
                   <span className="text-xs text-slate-400 font-mono">({area.icon_name})</span>
                 </div>
-                <button
-                  type="button"
-                  onClick={async () => {
-                    if (confirm(`Delete capability "${area.title}"?`)) {
-                      await deleteExpertiseArea(area.id);
-                    }
-                  }}
-                  className="p-1.5 text-slate-500 hover:text-red-400 transition-colors"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
+                <DeleteActionButton
+                  action={deleteExpertiseArea}
+                  id={area.id}
+                  confirmMessage={`Delete capability "${area.title}"?`}
+                />
               </div>
 
               <form action={saveExpertiseArea} className="space-y-4">

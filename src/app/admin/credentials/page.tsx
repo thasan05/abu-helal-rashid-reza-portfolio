@@ -1,7 +1,8 @@
 import React from "react";
 import { query } from "@/lib/db/client";
 import { saveCredentialItem, deleteCredentialItem } from "../cms-actions";
-import { Award, Plus, Trash2, Save, GraduationCap, ShieldCheck } from "lucide-react";
+import DeleteActionButton from "../DeleteActionButton";
+import { Award, Plus, Save, GraduationCap, ShieldCheck } from "lucide-react";
 
 export default async function CredentialsAdminPage() {
   const credentials = await query(`SELECT * FROM credential_items ORDER BY sort_order ASC`);
@@ -37,17 +38,13 @@ export default async function CredentialsAdminPage() {
                       <span className="font-serif text-base text-white">{cred.title}</span>
                       <div className="text-xs text-slate-400">{cred.issuer_institution} &bull; {cred.period_or_year}</div>
                     </div>
-                    <button
-                      type="button"
-                      onClick={async () => {
-                        if (confirm(`Delete credential "${cred.title}"?`)) {
-                          await deleteCredentialItem(cred.id);
-                        }
-                      }}
-                      className="p-1 text-slate-500 hover:text-red-400"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
+                    <DeleteActionButton
+                      action={deleteCredentialItem}
+                      id={cred.id}
+                      confirmMessage={`Delete credential "${cred.title}"?`}
+                      iconClassName="w-3.5 h-3.5"
+                      className="p-1 text-slate-500 hover:text-red-400 cursor-pointer"
+                    />
                   </div>
 
                   <form action={saveCredentialItem} className="space-y-3">

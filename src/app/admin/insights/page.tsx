@@ -1,7 +1,8 @@
 import React from "react";
 import { query } from "@/lib/db/client";
 import { saveInsightArticle, deleteInsightArticle } from "../cms-actions";
-import { BookOpen, Plus, Trash2, Save, ExternalLink } from "lucide-react";
+import DeleteActionButton from "../DeleteActionButton";
+import { BookOpen, Plus, Save, ExternalLink } from "lucide-react";
 
 export default async function InsightsAdminPage() {
   const articles = await query(`SELECT * FROM insight_articles ORDER BY sort_order ASC`);
@@ -37,17 +38,12 @@ export default async function InsightsAdminPage() {
                       <ExternalLink className="w-4 h-4" />
                     </a>
                   )}
-                  <button
-                    type="button"
-                    onClick={async () => {
-                      if (confirm(`Delete article "${art.title}"?`)) {
-                        await deleteInsightArticle(art.id);
-                      }
-                    }}
-                    className="p-1.5 text-slate-500 hover:text-red-400"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
+                  <DeleteActionButton
+                    action={deleteInsightArticle}
+                    id={art.id}
+                    confirmMessage={`Delete article "${art.title}"?`}
+                    className="p-1.5 text-slate-500 hover:text-red-400 cursor-pointer"
+                  />
                 </div>
               </div>
 
