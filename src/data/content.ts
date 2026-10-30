@@ -552,9 +552,9 @@ export const portfolioContent: PortfolioContent = {
         "Managed regional logistics and continuous material supply lines from central hubs.",
         "Partnered with municipal and statutory development authorities.",
       ],
-      imageUrl: "/images/reza-standing-suit.jpg",
-      imageAlt: "Executive oversight of multi-tower developments",
-      imagePosition: "object-top",
+      imageUrl: "/images/reza-site-team.jpg",
+      imageAlt: "Engr. Abu Helal Rashid Reza with site engineering team for residential development",
+      imagePosition: "object-center",
     },
     {
       id: "shimanto-tower",
