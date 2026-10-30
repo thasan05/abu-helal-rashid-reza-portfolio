@@ -36,7 +36,7 @@ export default function PersonalDimension() {
                   alt="Engr. Reza running in the Inspiring Bangladesh Marathon"
                   fill
                   sizes="(max-width: 640px) 100vw, 350px"
-                  className="object-cover"
+                  className="object-cover object-top"
                 />
               </div>
               <div className="p-3 bg-[#0B121E] text-xs uppercase tracking-[0.08em] font-medium text-slate-400">
@@ -51,7 +51,7 @@ export default function PersonalDimension() {
                   alt="Engr. Reza holding 15K finisher medal Bib 75767"
                   fill
                   sizes="(max-width: 640px) 100vw, 350px"
-                  className="object-cover"
+                  className="object-cover object-top"
                 />
               </div>
               <div className="p-3 bg-[#0B121E] text-xs uppercase tracking-[0.08em] font-medium text-[#CBB077]">

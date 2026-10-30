@@ -180,7 +180,7 @@ export default function ProfessionalImpact() {
                     alt={project.imageAlt}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 380px"
-                    className="object-cover group-hover:scale-103 transition-transform duration-500"
+                    className={`object-cover group-hover:scale-103 transition-transform duration-500 ${project.imagePosition || "object-top"}`}
                   />
                   <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-[4px] bg-[#070C14]/85 text-xs uppercase tracking-[0.08em] font-medium text-slate-300">
                     {project.category}
@@ -272,7 +272,7 @@ export default function ProfessionalImpact() {
                 alt={selectedProject.imageAlt}
                 fill
                 sizes="(max-width: 640px) 100vw, 650px"
-                className="object-cover"
+                className={`object-cover ${selectedProject.imagePosition || "object-top"}`}
               />
             </div>
 

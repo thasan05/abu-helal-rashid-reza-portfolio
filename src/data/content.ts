@@ -24,6 +24,7 @@ export interface ProjectShowcase {
   verifiedHighlights: string[];
   imageUrl: string;
   imageAlt: string;
+  imagePosition?: string;
 }
 
 export interface ExpertiseArea {
@@ -515,6 +516,7 @@ export const portfolioContent: PortfolioContent = {
       ],
       imageUrl: "/images/reza-window-reflection.jpg",
       imageAlt: "Executive leadership in defense infrastructure delivery",
+      imagePosition: "object-top",
     },
     {
       id: "army-officers-club-auditorium",
@@ -533,6 +535,7 @@ export const portfolioContent: PortfolioContent = {
       ],
       imageUrl: "/images/reza-pmi-speaker.jpg",
       imageAlt: "Professional leadership delivering institutional landmarks",
+      imagePosition: "object-center",
     },
     {
       id: "coxda-residential-towers",
@@ -551,6 +554,7 @@ export const portfolioContent: PortfolioContent = {
       ],
       imageUrl: "/images/reza-standing-suit.jpg",
       imageAlt: "Executive oversight of multi-tower developments",
+      imagePosition: "object-top",
     },
     {
       id: "shimanto-tower",
@@ -569,6 +573,7 @@ export const portfolioContent: PortfolioContent = {
       ],
       imageUrl: "/images/reza-portrait-standing.jpg",
       imageAlt: "Engr. Abu Helal Rashid Reza commercial project supervision",
+      imagePosition: "object-top",
     },
     {
       id: "industrial-economic-zones",
