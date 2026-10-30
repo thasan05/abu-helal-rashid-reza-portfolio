@@ -44,7 +44,7 @@ export default async function ProjectsAdminPage() {
                         src={proj.image_url}
                         alt={proj.image_alt || proj.title}
                         fill
-                        className="object-cover"
+                        className={`object-cover ${proj.image_position || "object-top"}`}
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-[10px] text-slate-500">

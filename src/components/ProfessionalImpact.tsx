@@ -10,6 +10,19 @@ interface ProfessionalImpactProps {
   data?: DatabasePortfolioData;
 }
 
+const getObjectPositionClass = (position?: string) => {
+  switch (position) {
+    case "object-top":
+      return "object-top";
+    case "object-bottom":
+      return "object-bottom";
+    case "object-center":
+      return "object-center";
+    default:
+      return "object-top";
+  }
+};
+
 export default function ProfessionalImpact({ data }: ProfessionalImpactProps) {
   const projects = data?.projects && data.projects.length > 0
     ? data.projects
@@ -104,7 +117,7 @@ export default function ProfessionalImpact({ data }: ProfessionalImpactProps) {
                   fill
                   priority
                   sizes="(max-width: 1024px) 100vw, 65vw"
-                  className="object-cover"
+                  className={`object-cover ${getObjectPositionClass(flagship.imagePosition)}`}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0B131F] via-transparent to-transparent lg:hidden" />
                 <div className="absolute top-4 left-4">
@@ -185,7 +198,7 @@ export default function ProfessionalImpact({ data }: ProfessionalImpactProps) {
                     alt={project.imageAlt || project.title}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    className={`object-cover ${getObjectPositionClass(project.imagePosition)} group-hover:scale-105 transition-transform duration-500`}
                   />
                   <div className="absolute top-3 right-3">
                     <span className="px-2.5 py-1 rounded-[4px] bg-[#070C14]/80 backdrop-blur-sm text-xs font-medium text-slate-300 border border-white/10">
@@ -282,7 +295,7 @@ export default function ProfessionalImpact({ data }: ProfessionalImpactProps) {
                 alt={selectedProject.imageAlt || selectedProject.title}
                 fill
                 sizes="(max-width: 768px) 100vw, 768px"
-                className="object-cover"
+                className={`object-cover ${getObjectPositionClass(selectedProject.imagePosition)}`}
               />
             </div>
 
